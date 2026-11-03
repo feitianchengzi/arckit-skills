@@ -1,0 +1,37 @@
+{
+  "schema_version": "arckit-capability/v1",
+  "id": "arckit-interaction",
+  "kind": "result_fact_source",
+  "runtime_role": [
+    "fact_source_maintenance"
+  ],
+  "binding_targets": [
+    "agent"
+  ],
+  "summary": "Maintains interaction expectation strategies, interactive prototypes and documentation, with isolated candidate exploration and adoption.",
+  "input_facts": [
+    "relevant_product_facts",
+    "relevant_interaction_facts",
+    "validated_scenario",
+    "dynamic_case_gap"
+  ],
+  "outputs": [
+    "interaction_update",
+    "interaction_audit",
+    "interaction_acceptance_criteria",
+    "fact_result",
+    "exploration_result"
+  ],
+  "allowed_write_targets": [
+    "arckit/interaction/**"
+  ],
+  "forbidden_decisions": [
+    "unconfirmed_assumption_as_fact",
+    "visual_direction_final_without_human_basis",
+    "technical_fact_ownership"
+  ],
+  "runtime_notes": [
+    "The Agent invokes managed-case mode only when the current dynamic gap needs interaction facts; the skill returns an evidence-backed fact_result and standalone mode remains available.",
+    "Candidate artifacts stay in the domain _explorations directory; return unresolved choices without asserting stable fact updates or writing Case State. Existing user decisions authorize adoption; never infer approval from implementation."
+  ]
+}

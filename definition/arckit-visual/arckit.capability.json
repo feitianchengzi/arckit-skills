@@ -1,0 +1,38 @@
+{
+  "schema_version": "arckit-capability/v1",
+  "id": "arckit-visual",
+  "kind": "result_fact_source",
+  "runtime_role": [
+    "fact_source_maintenance"
+  ],
+  "binding_targets": [
+    "agent"
+  ],
+  "summary": "Maintains visual expectation strategies, tokens, components and themes, with isolated candidate exploration and adoption.",
+  "input_facts": [
+    "relevant_visual_facts",
+    "existing_visual_strategy",
+    "human_visual_decision",
+    "dynamic_case_gap"
+  ],
+  "outputs": [
+    "visual_update",
+    "visual_audit",
+    "visual_acceptance_criteria",
+    "fact_result",
+    "exploration_result"
+  ],
+  "allowed_write_targets": [
+    "arckit/visual/**"
+  ],
+  "forbidden_decisions": [
+    "brand_direction_without_human_basis",
+    "aesthetic_approval",
+    "product_or_technical_fact_ownership"
+  ],
+  "runtime_notes": [
+    "The Agent invokes managed-case mode only when the current dynamic gap needs visual facts; the skill returns an evidence-backed fact_result and standalone mode remains available.",
+    "Formal visual changes need an explicit human or stable fact basis. Authorized exploration may produce isolated candidates before that choice; report pending choices as needs_human and never claim Case resolution.",
+    "Candidate artifacts stay in the domain _explorations directory; return unresolved choices without asserting stable fact updates or writing Case State. Existing user decisions authorize adoption; never infer approval from implementation."
+  ]
+}

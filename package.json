@@ -1,0 +1,30 @@
+{
+  "name": "arckit-skills",
+  "version": "0.1.0",
+  "description": "Install Arckit agent skills with a flat or structured layout.",
+  "type": "module",
+  "license": "Apache-2.0",
+  "bin": {
+    "arckit-skills": "bin/arckit-skills.mjs"
+  },
+  "files": [
+    "bin",
+    "lib",
+    "vendor",
+    "README.md",
+    "LICENSE",
+    "NOTICE"
+  ],
+  "scripts": {
+    "start": "node bin/arckit-skills.mjs",
+    "list": "node bin/arckit-skills.mjs list",
+    "test": "node --test test/"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/feitianchengzi/arckit-skills.git"
+  }
+}
