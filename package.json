@@ -10,15 +10,22 @@
   "files": [
     "bin",
     "lib",
-    "vendor",
+    "entry",
+    "definition",
+    "memory",
+    "engineering",
+    "code",
+    "delivery",
     "README.md",
+    "INSTALL.md",
+    "AGENTS.md",
     "LICENSE",
     "NOTICE"
   ],
   "scripts": {
     "start": "node bin/arckit-skills.mjs",
     "list": "node bin/arckit-skills.mjs list",
-    "test": "node --test test/"
+    "test": "node --test test/catalog.test.mjs test/install.test.mjs test/prompt.test.mjs test/targets.test.mjs test/cli.test.mjs"
   },
   "engines": {
     "node": ">=18"
