@@ -8,7 +8,7 @@
   "binding_targets": [
     "agent"
   ],
-  "summary": "Maintains interaction expectation strategies, interactive prototypes and documentation, with isolated candidate exploration and adoption.",
+  "summary": "维护交互预期策略、可交互原型和说明，支持独立存放的候选探索与采纳。",
   "input_facts": [
     "relevant_product_facts",
     "relevant_interaction_facts",
@@ -31,7 +31,7 @@
     "technical_fact_ownership"
   ],
   "runtime_notes": [
-    "The Agent invokes managed-case mode only when the current dynamic gap needs interaction facts; the skill returns an evidence-backed fact_result and standalone mode remains available.",
-    "Candidate artifacts stay in the domain _explorations directory; return unresolved choices without asserting stable fact updates or writing Case State. Existing user decisions authorize adoption; never infer approval from implementation."
+    "智能体仅在当前动态缺口需要交互事实时调用托管案例（`managed-case`）模式；技能返回有证据支持的 `fact_result`，独立（`standalone`）模式仍可使用。",
+    "候选产物保留在本域的 `_explorations` 目录；回传未解决的取舍，不声称稳定事实已更新，不写 `Case State`。用户已有决定即为采纳授权；绝不从实现推断已获批准。"
   ]
 }

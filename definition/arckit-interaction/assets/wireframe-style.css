@@ -1,5 +1,5 @@
 /* 无适用视觉规范时使用的灰度线框基础样式。
- * 有正式视觉规范时由原型应用相应 Tokens、组件与主题，不以本文件覆盖规范。
+ * 有正式视觉规范时由原型应用相应设计变量、组件与主题，不以本文件覆盖规范。
  */
 :root {
     --gray-0: #000; --gray-1: #333; --gray-2: #666; --gray-3: #999;
@@ -19,7 +19,7 @@ body {
     padding: var(--xl);
 }
 
-/* ===== Header ===== */
+/* ===== 页头 ===== */
 header {
     border-bottom: 2px solid var(--gray-4); padding-bottom: var(--lg);
     margin-bottom: var(--xl);
@@ -35,7 +35,7 @@ h1 { font-size: 2rem; font-weight: 600; color: var(--gray-0); margin-bottom: var
     font-size: 0.85rem;
 }
 
-/* ===== State Sections (details/summary) ===== */
+/* ===== 状态区块（details/summary） ===== */
 details {
     margin-bottom: var(--lg); border: var(--border) solid var(--gray-4);
     border-radius: var(--radius); overflow: hidden;
@@ -55,13 +55,13 @@ details[open] summary { background: var(--gray-1); color: var(--white); }
     border-radius: var(--radius);
 }
 
-/* ===== Canvas ===== */
+/* ===== 画布 ===== */
 /* 画布仅作衬底，无边框；唯一框线在 .device-frame */
 .wireframe-canvas {
     padding: var(--lg); background: var(--gray-6); min-height: 300px;
 }
 
-/* ===== Device Frames ===== */
+/* ===== 设备框 ===== */
 .device-frame {
     max-width: 375px; margin: 0 auto;
     border: 1px solid var(--gray-4); border-radius: 12px; overflow: hidden;
@@ -69,7 +69,7 @@ details[open] summary { background: var(--gray-1); color: var(--white); }
 .device-frame.tablet { max-width: 768px; }
 .device-frame.desktop { max-width: 100%; border-radius: 8px; }
 
-/* ===== Navigation ===== */
+/* ===== 导航 ===== */
 .nav-bar {
     background: var(--gray-6); border-bottom: var(--border) solid var(--gray-4);
     padding: var(--md); display: flex; align-items: center;
@@ -93,7 +93,7 @@ details[open] summary { background: var(--gray-1); color: var(--white); }
 }
 .tab-item.active { color: var(--gray-0); border-top-color: var(--gray-1); }
 
-/* ===== Sidebar (desktop) ===== */
+/* ===== 侧边栏（桌面端） ===== */
 .sidebar {
     width: 240px; min-width: 200px; border-right: var(--border) solid var(--gray-4);
     background: var(--gray-6); overflow-y: auto;
@@ -103,7 +103,7 @@ details[open] summary { background: var(--gray-1); color: var(--white); }
     color: var(--gray-3); text-transform: uppercase; letter-spacing: 0.5px;
 }
 
-/* ===== Split Views (desktop) ===== */
+/* ===== 分栏视图（桌面端） ===== */
 .split-h { display: flex; min-height: 400px; }
 .split-v { display: flex; flex-direction: column; flex: 1; }
 .split-divider-h {
@@ -119,7 +119,7 @@ details[open] summary { background: var(--gray-1); color: var(--white); }
     font-size: 0.85rem; font-weight: 600;
 }
 
-/* ===== Toolbar (macOS style) ===== */
+/* ===== 工具栏（macOS 风格） ===== */
 .toolbar {
     display: flex; align-items: center; gap: var(--sm);
     padding: var(--sm) var(--md); background: var(--gray-6);
@@ -138,7 +138,7 @@ details[open] summary { background: var(--gray-1); color: var(--white); }
 }
 .toolbar-group .toolbar-button { border-radius: 0; border: none; }
 
-/* ===== Content Components ===== */
+/* ===== 内容组件 ===== */
 .content-area { padding: var(--md); }
 .list-item {
     border: var(--border) solid var(--gray-4); border-radius: var(--radius);
@@ -154,7 +154,7 @@ details[open] summary { background: var(--gray-1); color: var(--white); }
     padding: var(--sm) 0; margin-top: var(--md);
 }
 
-/* ===== Form Controls ===== */
+/* ===== 表单控件 ===== */
 .button {
     display: inline-block; padding: var(--sm) var(--lg);
     border: 2px solid var(--gray-1); border-radius: var(--radius);
@@ -193,7 +193,7 @@ details[open] summary { background: var(--gray-1); color: var(--white); }
     font-size: 0.95rem; outline: none;
 }
 
-/* ===== Placeholders ===== */
+/* ===== 占位元素 ===== */
 .placeholder-box {
     background: var(--gray-6); border: var(--border) dashed var(--gray-3);
     border-radius: var(--radius); padding: var(--lg);
@@ -222,7 +222,7 @@ details[open] summary { background: var(--gray-1); color: var(--white); }
     display: inline-block;
 }
 
-/* ===== Cards & Containers ===== */
+/* ===== 卡片与容器 ===== */
 .card {
     border: var(--border) solid var(--gray-4); border-radius: var(--radius);
     padding: var(--md); background: var(--white); margin-bottom: var(--md);
@@ -241,7 +241,7 @@ details[open] summary { background: var(--gray-1); color: var(--white); }
     margin-bottom: var(--sm);
 }
 
-/* ===== Status Indicators ===== */
+/* ===== 状态指示器 ===== */
 .badge {
     display: inline-block; padding: 2px 8px; border-radius: 10px;
     font-size: 0.75rem; font-weight: 600;
@@ -259,8 +259,8 @@ details[open] summary { background: var(--gray-1); color: var(--white); }
 }
 .empty-state .icon-placeholder { margin: 0 auto var(--md); }
 
-/* ===== Modal / Sheet / Dialog ===== */
-/* IMPORTANT: Wireframe modals render inline, never use position:fixed or z-index */
+/* ===== 模态层 / 面板 / 对话框 ===== */
+/* 重要：线框模态层以内联方式呈现，绝不使用 position:fixed 或 z-index */
 .modal-overlay {
     background: var(--gray-5); border: 2px dashed var(--gray-3);
     border-radius: var(--radius); padding: var(--lg);
@@ -278,7 +278,7 @@ details[open] summary { background: var(--gray-1); color: var(--white); }
     color: var(--gray-2); border: 1px solid var(--gray-3); border-radius: 3px;
 }
 
-/* ===== Annotation & Documentation ===== */
+/* ===== 标注与说明 ===== */
 .component-list, .interactions {
     margin-top: var(--lg); padding: var(--md);
     background: var(--gray-6); border-radius: var(--radius);
@@ -301,7 +301,7 @@ details[open] summary { background: var(--gray-1); color: var(--white); }
     border-radius: 3px; font-size: 0.85rem;
 }
 
-/* ===== Responsive ===== */
+/* ===== 响应式布局 ===== */
 @media (max-width: 768px) {
     body { padding: var(--md); }
     .wireframe-container { padding: var(--md); }

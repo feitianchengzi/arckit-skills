@@ -1,4 +1,4 @@
-# data-kit 标注参考
+# 控件标注参考（`data-kit`）
 
 在可交互原型 HTML 关键节点上添加 `data-kit="ControlName"` 属性，标注该区域在目标平台应使用的原生控件。
 
@@ -17,7 +17,7 @@
 
 | data-kit | 场景 | SwiftUI |
 |----------|------|---------|
-| `NavigationStack` | 单列导航（push/pop） | `NavigationStack` |
+| `NavigationStack` | 单列导航（压入/弹出） | `NavigationStack` |
 | `NavigationSplitView` | 侧边栏+内容+详情（2或3列） | `NavigationSplitView` |
 | `TabView` | 底部/顶部标签切换 | `TabView` |
 | `TabView(page)` | 分页横滑 | `TabView` + `.tabViewStyle(.page)` |
