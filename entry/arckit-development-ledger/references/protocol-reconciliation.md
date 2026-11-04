@@ -1,46 +1,46 @@
-# Protocol Reconciliation
+# 协议协调转换
 
-本机制只在 canonical Project、active Case 或 active Iteration 无法满足当前协议时启用。它提供确定性的发现和提交边界，不编码 `vN -> vN+1` 字段映射；转换语义由同一 Agent 根据旧记录、当前 schema、长期事实与源码决定。
+本机制只在权威项目、活跃事项或活跃迭代无法满足当前协议时启用。它提供确定性的发现和提交边界，不编码 `vN -> vN+1` 字段映射；转换语义由同一智能体根据旧记录、当前模式、长期事实与源码决定。
 
-## Probe
+## 兼容性探测
 
 `protocol-compatibility.mjs probe` 输出 `arckit-ledger-compatibility/v1`：
 
-- `compatible`：canonical state 可进入正常 Case Loop。
+- `compatible`：权威状态可进入正常事项循环。
 - `older_protocol` / `newer_protocol` / `unknown_protocol` / `missing_schema_version`：协议版本不一致。
-- `current_protocol_invalid`：版本号当前，但内容不满足当前 validator。
-- `missing` / `unreadable`：canonical object 缺失或无法解析。
+- `current_protocol_invalid`：版本号当前，但内容不满足当前校验器。
+- `missing` / `unreadable`：权威对象缺失或无法解析。
 
-Probe 扫描 Project 明确引用的 active Case/Iteration，并补充 active Case 目录，输出每个对象的 `source_digest`。`snapshot_token` 绑定完整 observed set，防止恢复期间外部修改被覆盖。
+探测扫描项目明确引用的活跃事项与迭代，并补充活跃事项目录，输出每个对象的 `source_digest`。`snapshot_token` 绑定完整观察集合，防止恢复期间外部修改被覆盖。
 
-## Reconciliation 输入
+## 协调转换输入
 
 `arckit-protocol-reconciliation/v1` 包含：
 
-- `observed_snapshot_token`、恢复原因、持久 evidence 与 preservation claims。
-- 每个 incompatible canonical object 的完整 replacement：ref、kind、observed/target schema、source digest、当前协议 record、semantic basis 和空 uncertainties。
-- 可额外包含为保持跨记录一致性而需要同步更新的 compatible canonical object，但不能写入 probe 之外的路径。
+- `observed_snapshot_token`、恢复原因、持久证据与保真声明。
+- 每个不兼容权威对象的完整替换记录：引用、类型、观察与目标模式、来源摘要、当前协议记录、语义依据和空的不确定性集合。
+- 可额外包含为保持跨记录一致性而需要同步更新的兼容权威对象，但不能写入探测范围之外的路径。
 
-具体结构见 `schema/protocol-reconciliation.schema.json`。仍有 uncertainties 时不要提交；由入口 Agent按真实责任 handoff。
+具体结构见 `schema/protocol-reconciliation.schema.json`。仍有 `uncertainties` 时不要提交；由入口智能体按真实责任交接。
 
-## Trusted 验收
+## 可信验收
 
 ### 定义变化与历史保真
 
-核心定义按当前模板数据精确校验；即使字段结构未变化，条文语义变化也可能需要 reconciliation。Agent 读取当前模板、旧 State 及引用后判断如何恢复，不同责任不能仅改名并继承旧判断。
+核心定义按当前模板数据精确校验；即使字段结构未变化，条文语义变化也可能需要协调转换。智能体读取当前模板、旧状态及引用后判断如何恢复，不同责任不能仅改名并继承旧判断。
 
-保留旧 rounds、证据和未完成义务；存在旧 target 引用时可暂保留原定义作为非核心兼容项，逐项语义处置后再退休，不自动映射业务含义。新 snapshot 按当前集合判断，旧轮次保留其 Project revision 下的历史含义。
+保留旧轮次、证据和未完成义务；存在旧目标引用时可暂保留原定义作为非核心兼容项，逐项语义处置后再退役，不自动映射业务含义。新快照按当前集合判断，旧轮次保留其项目修订版本下的历史含义。
 
-安装副本升级与项目数据 reconciliation 是不同动作。恢复依据实际使用的可信能力版本，不把源代码更新视为运行副本已经升级。
+安装副本升级与项目数据协调转换是不同动作。恢复依据实际使用的可信能力版本，不把源代码更新视为运行副本已经升级。
 
 ### 原子验收
 
-`validate` 和 `reconcile --dry-run true` 均不写文件。正式 `reconcile` 在 Project commit lock 内重新 probe 并执行：
+`validate` 和 `reconcile --dry-run true` 均不写文件。正式 `reconcile` 在项目提交锁内重新探测并执行：
 
-1. 绑定 snapshot token、每个 source digest、observed kind/version 和允许路径。
-2. 要求所有 incompatible refs 都有 replacement，且全部 records 通过当前 validator。
-3. 校验 Project active refs、Case project ref/impact targets/decision revision 和 Iteration targets。
-4. 保留 Project/Case/Iteration identity，不降低 Project revision，不擦除已识别的项目/Case intent，不静默移除 accepted fact、open gap/question 或 pending handoff id。
-5. 原子写入 canonical records，重建 Project/Case/Iteration projections 与 indexes，再次 probe；失败恢复全部原内容。
+1. 绑定快照令牌、每个来源摘要、观察到的类型与版本和允许路径。
+2. 要求所有不兼容引用都有替换记录，且全部记录通过当前校验器。
+3. 校验项目活跃引用、事项的项目引用、影响目标与决策修订号，以及迭代目标。
+4. 保留项目、事项与迭代身份，不降低项目修订号，不擦除已识别的项目或事项意图，不静默移除已接受事实、开放缺口或问题，以及待处理交接的标识。
+5. 原子写入权威记录，重建项目、事项与迭代投影和索引，再次探测；失败恢复全部原内容。
 
-成功结果是 `arckit-protocol-reconciliation-result/v1`。它不是 Case transition，不推进 Project State，也不替代恢复后的 fresh-read。
+成功结果是 `arckit-protocol-reconciliation-result/v1`。它不是事项状态转换，不推进项目状态，也不替代恢复后的最新状态读取。

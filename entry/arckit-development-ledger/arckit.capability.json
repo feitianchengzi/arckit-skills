@@ -44,7 +44,7 @@
     "case_transition": "scripts/case-transition.mjs",
     "writeback": "scripts/runtime-writeback.mjs"
   },
-  "summary": "Maintains Project decisions/invariants/advancement, Case facts/impacts/dynamic gaps, Iteration aggregation, and deterministic one-claim transitions with complete invariant assessment.",
+  "summary": "维护项目决策、不变量与推进状态、事项事实、影响与动态缺口、迭代聚合，以及包含完整不变量判断的确定性单主张状态转换。",
   "input_facts": [
     "project_state_record",
     "iteration_state_record",
@@ -82,21 +82,21 @@
     "release_authorization"
   ],
   "runtime_notes": [
-    "Runtime must resolve and call the trusted entrypoints declared by this capability instead of maintaining copied ledger scripts.",
-    "Agent-directed Case creation enters through case_control with semantic initial facts, relevant decision/invariant impacts, and at least one gap; ledger allocates ids and atomically registers the v5 Case.",
-    "Every Case transition uses a Case-scoped selection token, Case and Project revision binding, complete persisted-candidate accounting, exact selected-gap matching, one acceptance claim, an explicit Project State delta, and complete current invariant assessment.",
-    "The ledger validates invariant catalog coverage, duplicate refs, accepted-fact evidence and open-gap bindings; semantic relevance and skill/artifact routing remain Agent-owned.",
-    "Different Cases may execute concurrently; Case, Project, iteration, projections, and indexes commit under one cross-process Project lock with rollback.",
-    "Iteration v3 contains only Project targets, per-transition accepted Project changes, acceptance state, and Case refs; Loop continuation is forbidden.",
-    "Project audits require the complete protocol-defined software decision checklist, core software invariants, durable evidence, and active Case reference alignment.",
-    "Concrete project choices settle explicit software decisions; Case-local facts remain in durable artifacts and Case facts, and closed Case history is not accumulated in Project State.",
-    "ArcOrbit Runtime passes the Agent Semantic Case Command unchanged to writeback; the trusted entrypoint materializes canonical identity, revision, selected candidate, reverse relations and internal v8 under the Project lock. Direct Agents may still submit v8.",
-    "Runtime-owned result, activity, event, and transcript records stay outside the target project; Desktop may pass an arckit-runtime://runs/RUN-... opaque reference for Case round traceability.",
-    "Case rendering is content-transparent and dry-run preflights Structured Record round trips plus existing Case index inputs.",
-    "Direct Agents and Runtime consume the same manifest-declared loop_snapshot receipt; Runtime does not parse canonical record versions or derive candidates independently.",
-    "Successful transition writeback returns an accepted round_closeout with no next candidate, followed by a separately verified post-commit snapshot.",
-    "Protocol incompatibility is detected deterministically and handed to the same Agent for semantic reconciliation; trusted writeback binds source digests and commits all canonical replacements atomically.",
-    "project_state prepare-workspace maintains the root .gitignore managed block for local state and evidence before project initialization or task preparation; it preserves the Git index, reports tracked paths and does not change canonical state."
+    "运行时必须解析并调用本能力声明的可信入口，不得维护账本脚本的复制版本。",
+    "由智能体决定的事项创建通过 `case_control` 入口提交，包含语义初始事实、相关决策或不变量影响，以及至少一个缺口；账本分配标识并原子注册 v5 事项。",
+    "每次事项状态转换都使用事项级选择令牌，绑定事项与项目修订号，完整记录已持久化候选的处置，精确匹配选中缺口，提交一个验收主张、显式项目状态增量和完整的当前不变量判断。",
+    "账本校验不变量目录覆盖、重复引用、已接受事实证据和开放缺口绑定；语义相关性以及技能、工件路由仍由智能体负责。",
+    "不同事项可以并发执行；事项、项目、迭代、投影和索引在同一个跨进程项目锁内提交，并支持回滚。",
+    "v3 迭代只包含项目目标、逐次状态转换接受的项目变更、验收状态和事项引用；禁止承载循环续轮信息。",
+    "项目审计要求完整的协议软件决策清单、核心软件不变量、持久证据，以及活跃事项引用的一致性。",
+    "具体项目选择用于确立显式软件决策；事项局部事实保存在持久工件与事项事实中，已关闭事项的历史不累积到项目状态。",
+    "Arckit 运行时将智能体语义事项命令原样传给写回入口；可信入口在项目锁内物化权威身份、修订号、选中候选、反向关系和内部 v8。直接调用的智能体仍可提交 v8。",
+    "运行时拥有的结果、活动、事件和对话记录保留在目标项目之外；桌面端可以传递 `arckit-runtime://runs/RUN-...` 不透明引用，用于事项轮次追溯。",
+    "事项渲染保持内容透明，试运行预检 `Structured Record` 的往返一致性及现有事项索引输入。",
+    "直接调用的智能体与运行时使用同一个由能力清单声明的 `loop_snapshot` 回执；运行时不自行解析权威记录版本或派生候选。",
+    "状态转换写回成功后返回已接受的 `round_closeout`，其中没有下一候选；随后独立验证提交后快照。",
+    "协议不兼容通过确定性检查发现，并交由同一智能体完成语义协调转换；可信写回绑定来源摘要，原子提交全部权威替换记录。",
+    "`project_state prepare-workspace` 在项目初始化或任务准备前，维护根目录 `.gitignore` 中用于本地状态和证据的托管区块；保留 Git 索引，报告已跟踪路径，不改变权威状态。"
   ],
   "agent_contracts": {
     "case_command": {
