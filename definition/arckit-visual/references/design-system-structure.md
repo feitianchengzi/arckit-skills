@@ -1,4 +1,4 @@
-# Design System 结构与规格格式
+# 设计系统结构与规格格式
 
 ## 核心结构
 
@@ -6,11 +6,11 @@
 visual/
 ├── INDEX.md                 # 【入口】缩进树形索引（每级一句+文件行数）
 ├── CONVENTIONS.md          # 视觉规范
-├── _library/               # Design System 核心
+├── _library/               # 设计系统核心
 │   ├── brief.md            # 品牌方向与视觉策略（风格源）
-│   ├── design-tokens.yaml  # Design Tokens（色彩、字体、间距、圆角、阴影、动效曲线）
+│   ├── design-tokens.yaml  # 设计变量（色彩、字体、间距、圆角、阴影、动效曲线）
 │   ├── component-catalog.yaml # 组件视觉规格目录
-│   ├── style-preview.html  # Design Token 与组件样式预览页
+│   ├── style-preview.html  # 设计变量与组件样式预览页
 │   └── preview-server.py   # 本地预览服务
 ├── _explorations/          # 候选风格、比较与采纳记录（独立索引）
 ├── themes/                 # 主题配置
@@ -24,14 +24,14 @@ visual/
 
 ✅ 已完成 | 🟡 进行中 | ⚪ 计划中 | 🔴 已废弃
 
-- _library/ Design System 核心：Tokens、品牌、组件规格。✅
+- _library/ 设计系统核心：设计变量、品牌、组件规格。✅
   - brief.md 品牌方向与视觉策略：调性、层级、色彩角色、字体节奏、组件性格。✅ (85行)
-  - design-tokens.yaml Design Tokens：色彩体系、字体阶梯、间距尺度、圆角、阴影。✅ (120行)
-  - component-catalog.yaml 组件视觉目录：组件角色、变体、尺寸、状态与 Token 引用。🟡 (60行)
-  - style-preview.html Token 与样式预览页。✅ (240行)
+  - design-tokens.yaml 设计变量：色彩体系、字体阶梯、间距尺度、圆角、阴影。✅ (120行)
+  - component-catalog.yaml 组件视觉目录：组件角色、变体、尺寸、状态与设计变量引用。🟡 (60行)
+  - style-preview.html 设计变量与样式预览页。✅ (240行)
 - themes/ 主题配置：亮色、暗色、无障碍适配。🟡
-  - light.yaml 亮色主题：Token 覆盖值。✅ (40行)
-  - dark.yaml 暗色主题：Token 覆盖值。🟡 (35行)
+  - light.yaml 亮色主题：设计变量覆盖值。✅ (40行)
+  - dark.yaml 暗色主题：设计变量覆盖值。🟡 (35行)
 ```
 
 **关键**：
@@ -51,14 +51,14 @@ visual/
 | 层级深度 | 嵌套层数 | >3层 | 平级化：将深层子类别提升 |
 | 组件数量 | component-catalog.yaml 下组件数 | >15个 | 按组件类别拆分（form-components.yaml / layout-components.yaml 等） |
 
-## Design Tokens 结构约定
+## 设计变量结构约定
 
 ```yaml
 # design-tokens.yaml 推荐结构
 color:
   primary: { value: "#...", description: "主色调" }
   secondary: { value: "#...", description: "辅助色" }
-  # semantic
+  # 语义色
   surface: { value: "#...", description: "背景面" }
   on-surface: { value: "#...", description: "背景面上的文字" }
   error: { value: "#...", description: "错误状态" }
@@ -121,8 +121,8 @@ sizes:
 
 | 操作 | 更新 |
 |------|------|
-| 新建 Token/组件 | INDEX.md（含行数）、_map/RELATIONS.md、feature-matrix.md |
-| 更新 Token/组件 | INDEX.md（更新行数）、feature-matrix.md（若状态变更） |
+| 新建设计变量/组件 | INDEX.md（含行数）、_map/RELATIONS.md、feature-matrix.md |
+| 更新设计变量/组件 | INDEX.md（更新行数）、feature-matrix.md（若状态变更） |
 | 拆分文件 | INDEX.md（添加拆分后的条目） |
 | 归档 | INDEX.md、_map/RELATIONS.md、feature-matrix.md |
 

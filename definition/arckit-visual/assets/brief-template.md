@@ -31,10 +31,10 @@
 <!-- 按钮、表单、卡片、列表、导航、反馈组件应呈现的视觉性格和边界。 -->
 
 ### 状态表达
-<!-- hover、active、focus、disabled、loading、error、success 等状态的视觉表达方式。 -->
+<!-- 悬停（hover）、激活（active）、聚焦（focus）、禁用（disabled）、加载（loading）、错误（error）、成功（success）等状态的视觉表达方式。 -->
 
 ### 主题策略
-<!-- Light/Dark/高对比等主题如何保持同一风格源，只改变 token 值和必要对比关系。 -->
+<!-- 亮色/暗色/高对比等主题如何保持同一风格源，只改变设计变量值和必要对比关系。 -->
 
 ## 参考产品
 
@@ -67,8 +67,8 @@
 <!-- 3-5 条指导所有设计决策的原则。示例：
 1. 内容优先 — 减少装饰，让用户专注于内容
 2. 一致性 — 遵循平台规范（HIG），不重新发明控件
-3. 响应式 — 适配不同窗口尺寸和 Split View
-4. 可及性 — 支持 Dynamic Type、VoiceOver、键盘导航 -->
+3. 响应式 — 适配不同窗口尺寸和分屏视图
+4. 可及性 — 支持动态字体（Dynamic Type）、旁白（VoiceOver）、键盘导航 -->
 
 1.
 2.
@@ -78,5 +78,5 @@
 
 <!-- 技术或业务约束。示例：
 - 目标平台: macOS 15+ / iOS 18+
-- 必须支持 Light/Dark 两套主题
-- 需符合 Apple Human Interface Guidelines -->
+- 必须支持亮色/暗色两套主题
+- 需符合 Apple 人机界面指南（Human Interface Guidelines） -->

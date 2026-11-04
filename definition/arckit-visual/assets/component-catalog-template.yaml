@@ -13,7 +13,7 @@ metadata:
 #   variants:      视觉变体
 #   sizes:         尺寸变体
 #   states:        状态集合
-#   token_refs:    依赖的 Design Tokens
+#   token_refs:    依赖的设计变量
 #   accessibility: 无障碍与对比度要求
 
 components: {}

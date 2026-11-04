@@ -22,7 +22,7 @@
 分析结果:
   需要拆分: 是
   涉及范围: _library/design-tokens.yaml (350行)
-  拆分方式: 按 Token 类别拆为 4 个独立文件
+  拆分方式: 按设计变量类别拆为 4 个独立文件
   预期结构:
     - _library/tokens/
       - color-tokens.yaml 色彩体系：品牌色、背景、文字、语义色。(120行)
@@ -30,8 +30,8 @@
       - spacing-tokens.yaml 间距与圆角：间距阶梯、圆角规格。(40行)
       - effect-tokens.yaml 阴影与动效：阴影层级、动效曲线。(50行)
   连带更新:
-    - INDEX.md: 原 tokens 条目改为子文件列表
-    - design-tokens.yaml: 保留为汇总入口，引用拆分后的 Token 文件
+    - INDEX.md: 原设计变量条目改为子文件列表
+    - design-tokens.yaml: 保留为汇总入口，引用拆分后的设计变量文件
 ```
 
 **若无需拆分**，输出：

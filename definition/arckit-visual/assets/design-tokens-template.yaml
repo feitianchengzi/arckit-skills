@@ -1,5 +1,5 @@
-# Design Tokens — {{PROJECT_NAME}}
-# 本文件是 Design System 的规格定义，实际代码在目标平台源码中实现。
+# 设计变量 — {{PROJECT_NAME}}
+# 本文件是设计系统的规格定义，实际代码在目标平台源码中实现。
 # 修改此文件后需同步更新对应的代码实现。
 
 metadata:

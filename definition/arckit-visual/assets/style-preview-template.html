@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{PROJECT_NAME}} — Style Preview</title>
+    <title>{{PROJECT_NAME}} — 样式预览</title>
     <script src="https://cdn.jsdelivr.net/npm/js-yaml@4/dist/js-yaml.min.js"></script>
     <style>
         /* ===== CSS 变量由 JS 从 YAML 动态注入，以下仅为安全回退 ===== */
@@ -26,7 +26,7 @@
         }
         .container { max-width:1200px; margin:0 auto; }
 
-        /* ─ Header ─ */
+        /* ─ 页头 ─ */
         .header { margin-bottom:24px; }
         .header h1 { font-size:28px; font-weight:700; margin-bottom:4px; }
         .header .subtitle { color:var(--text-secondary); font-size:14px; margin-bottom:16px; }
@@ -38,7 +38,7 @@
         .toolbar .badge-source.ok { background:#DCFCE7; color:#16A34A; }
         .toolbar .badge-source.fallback { background:#FEF9C3; color:#A16207; }
 
-        /* ─ Theme Toggle ─ */
+        /* ─ 主题切换 ─ */
         .theme-toggle { display:flex; gap:8px; }
         .theme-toggle button {
             padding:8px 16px; border-radius:8px; border:1px solid var(--separator);
@@ -47,7 +47,7 @@
         }
         .theme-toggle button.active { background:var(--accent); color:#fff; border-color:var(--accent); }
 
-        /* ─ Loader / Fallback ─ */
+        /* ─ 加载器 / 回退 ─ */
         #loader {
             background:var(--bg-primary); border-radius:12px; padding:32px; text-align:center;
             margin-bottom:24px; border:2px dashed var(--separator);
@@ -57,7 +57,7 @@
         #loader input[type=file] { margin:0 auto; }
         #loader .hint { font-size:13px; color:var(--text-tertiary); margin-top:8px; }
 
-        /* ─ Section ─ */
+        /* ─ 区块 ─ */
         .section {
             background:var(--bg-primary); border-radius:12px;
             padding:24px; margin-bottom:24px; box-shadow:var(--shadow-small);
@@ -68,7 +68,7 @@
             margin-bottom:16px; padding-bottom:8px; border-bottom:1px solid var(--separator);
         }
 
-        /* ─ Color Grid ─ */
+        /* ─ 颜色网格 ─ */
         .color-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(150px,1fr)); gap:16px; }
         .color-swatch { border-radius:8px; overflow:hidden; border:1px solid var(--separator); }
         .color-swatch-block { height:64px; }
@@ -76,28 +76,28 @@
         .color-swatch-label .name { font-weight:600; }
         .color-swatch-label .value { color:var(--text-tertiary); font-family:"SF Mono",monospace; font-size:11px; }
 
-        /* ─ Typography ─ */
+        /* ─ 字体 ─ */
         .type-sample { margin-bottom:16px; }
         .type-sample .label { font-size:12px; color:var(--text-tertiary); font-family:"SF Mono",monospace; margin-bottom:2px; }
 
-        /* ─ Spacing ─ */
+        /* ─ 间距 ─ */
         .spacing-row { display:flex; align-items:center; gap:16px; margin-bottom:8px; }
         .spacing-bar { height:24px; background:var(--accent); border-radius:2px; opacity:.7; }
         .spacing-label { font-size:13px; color:var(--text-secondary); font-family:"SF Mono",monospace; min-width:100px; }
 
-        /* ─ Radius ─ */
+        /* ─ 圆角 ─ */
         .radius-grid { display:flex; gap:24px; flex-wrap:wrap; }
         .radius-item { text-align:center; }
         .radius-box { width:80px; height:80px; background:var(--bg-tertiary); border:2px solid var(--accent); margin-bottom:8px; }
         .radius-item .label { font-size:12px; color:var(--text-tertiary); font-family:"SF Mono",monospace; }
 
-        /* ─ Shadow ─ */
+        /* ─ 阴影 ─ */
         .shadow-grid { display:flex; gap:24px; flex-wrap:wrap; }
         .shadow-item { text-align:center; }
         .shadow-box { width:120px; height:80px; background:var(--bg-primary); border-radius:8px; margin-bottom:8px; }
         .shadow-item .label { font-size:12px; color:var(--text-tertiary); }
 
-        /* ─ Buttons ─ */
+        /* ─ 按钮 ─ */
         .button-row { display:flex; gap:16px; flex-wrap:wrap; align-items:center; }
         .btn { padding:10px 20px; border-radius:8px; font-size:15px; font-weight:600; cursor:pointer; border:none; transition:opacity .2s; }
         .btn:hover { opacity:.85; }
@@ -107,7 +107,7 @@
         .btn-text { background:none; color:var(--accent); padding:10px 12px; }
         .btn-disabled { background:var(--bg-tertiary); color:var(--text-tertiary); cursor:not-allowed; }
 
-        /* ─ Badge ─ */
+        /* ─ 标签 ─ */
         .badge-row { display:flex; gap:8px; flex-wrap:wrap; }
         .badge { padding:4px 10px; border-radius:10px; font-size:12px; font-weight:600; }
         .badge-default { background:var(--bg-tertiary); color:var(--text-secondary); }
@@ -116,7 +116,7 @@
         .badge-warning { background:var(--warning); color:#fff; }
         .badge-destructive { background:var(--destructive); color:#fff; }
 
-        /* ─ Form ─ */
+        /* ─ 表单 ─ */
         .form-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
         .form-group { display:flex; flex-direction:column; gap:4px; }
         .form-label { font-size:14px; font-weight:600; }
@@ -129,7 +129,7 @@
         .toggle-track { width:44px; height:24px; border-radius:12px; position:relative; background:var(--accent); cursor:pointer; display:inline-block; }
         .toggle-thumb { width:20px; height:20px; border-radius:50%; background:#fff; position:absolute; top:2px; right:2px; box-shadow:0 1px 3px rgba(0,0,0,.2); }
 
-        /* ─ Card ─ */
+        /* ─ 卡片 ─ */
         .card-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(280px,1fr)); gap:16px; }
         .card { border-radius:12px; border:1px solid var(--separator); overflow:hidden; background:var(--bg-primary); }
         .card-image { height:140px; background:var(--bg-tertiary); display:flex; align-items:center; justify-content:center; color:var(--text-tertiary); font-size:14px; }
@@ -137,7 +137,7 @@
         .card-body h3 { font-size:17px; font-weight:600; margin-bottom:4px; }
         .card-body p { font-size:15px; color:var(--text-secondary); }
 
-        /* ─ List ─ */
+        /* ─ 列表 ─ */
         .list-preview { border:1px solid var(--separator); border-radius:12px; overflow:hidden; }
         .list-row { display:flex; align-items:center; gap:16px; padding:12px 16px; border-bottom:1px solid var(--separator); }
         .list-row:last-child { border-bottom:none; }
@@ -153,14 +153,14 @@
 <body>
 <div class="container">
 
-    <!-- ===== Header ===== -->
+    <!-- ===== 页头 ===== -->
     <div class="header">
-        <h1>{{PROJECT_NAME}} — Style Preview</h1>
-        <p class="subtitle">Design System 视觉预览 · 数据源: design-tokens.yaml</p>
+        <h1>{{PROJECT_NAME}} — 样式预览</h1>
+        <p class="subtitle">设计系统视觉预览 · 数据源: design-tokens.yaml</p>
         <div class="toolbar">
             <div class="theme-toggle">
-                <button class="active" onclick="setTheme('light')">Light</button>
-                <button onclick="setTheme('dark')">Dark</button>
+                <button class="active" data-theme="light" onclick="setTheme('light')">浅色</button>
+                <button data-theme="dark" onclick="setTheme('dark')">深色</button>
             </div>
             <span id="source-badge" class="badge-source">未加载</span>
         </div>
@@ -183,7 +183,7 @@
 
     <!-- ===== 组件预览（静态 HTML，使用 CSS 变量） ===== -->
     <div class="section">
-        <div class="section-title">Buttons · 按钮</div>
+        <div class="section-title">按钮</div>
         <div class="button-row">
             <button class="btn btn-primary">主要操作</button>
             <button class="btn btn-secondary">次要操作</button>
@@ -194,7 +194,7 @@
     </div>
 
     <div class="section">
-        <div class="section-title">Badges · 标签</div>
+        <div class="section-title">标签</div>
         <div class="badge-row">
             <span class="badge badge-default">默认</span>
             <span class="badge badge-accent">主要</span>
@@ -205,7 +205,7 @@
     </div>
 
     <div class="section">
-        <div class="section-title">Form Controls · 表单控件</div>
+        <div class="section-title">表单控件</div>
         <div class="form-grid">
             <div class="form-group">
                 <label class="form-label">用户名</label>
@@ -226,7 +226,7 @@
     </div>
 
     <div class="section">
-        <div class="section-title">Cards · 卡片</div>
+        <div class="section-title">卡片</div>
         <div class="card-grid">
             <div class="card">
                 <div class="card-image">图片占位</div>
@@ -240,7 +240,7 @@
     </div>
 
     <div class="section">
-        <div class="section-title">List Rows · 列表行</div>
+        <div class="section-title">列表行</div>
         <div class="list-preview">
             <div class="list-row"><div class="list-avatar"></div><div class="list-text"><div class="title">列表项标题</div><div class="sub">副标题描述文字</div></div><div class="list-chevron">›</div></div>
             <div class="list-row"><div class="list-avatar"></div><div class="list-text"><div class="title">另一个列表项</div><div class="sub">附加说明信息</div></div><div class="list-chevron">›</div></div>
@@ -252,7 +252,7 @@
 
 <script>
 /* ──────────────────────────────────────────────
- *  Style Preview — 动态 YAML → CSS 变量 引擎
+ *  样式预览 — 动态 YAML → CSS 变量引擎
  * ────────────────────────────────────────────── */
 
 const YAML_RELATIVE_PATH = 'design-tokens.yaml';
@@ -335,7 +335,7 @@ function renderColors(data) {
         </div>`;
     }).join('');
     document.getElementById('colors-section').innerHTML =
-        `<div class="section"><div class="section-title">Colors · 颜色</div><div class="color-grid">${html}</div></div>`;
+        `<div class="section"><div class="section-title">颜色</div><div class="color-grid">${html}</div></div>`;
 }
 
 /* ── 生成字体区块 ── */
@@ -354,7 +354,7 @@ function renderTypography(data) {
         </div>`;
     }).join('');
     document.getElementById('typography-section').innerHTML =
-        `<div class="section"><div class="section-title">Typography · 字体</div>${html}</div>`;
+        `<div class="section"><div class="section-title">字体</div>${html}</div>`;
 }
 
 /* ── 生成间距区块 ── */
@@ -367,7 +367,7 @@ function renderSpacing(data) {
         </div>`;
     }).join('');
     document.getElementById('spacing-section').innerHTML =
-        `<div class="section"><div class="section-title">Spacing · 间距</div>${html}</div>`;
+        `<div class="section"><div class="section-title">间距</div>${html}</div>`;
 }
 
 /* ── 生成圆角 & 阴影区块 ── */
@@ -377,14 +377,14 @@ function renderRadiusShadow(data) {
         radiusHtml = Object.entries(data.corner_radius).map(([name, val]) =>
             `<div class="radius-item"><div class="radius-box" style="border-radius:${val}px"></div><div class="label">${name} · ${val}px</div></div>`
         ).join('');
-        radiusHtml = `<div><div class="section-title">Corner Radius · 圆角</div><div class="radius-grid">${radiusHtml}</div></div>`;
+        radiusHtml = `<div><div class="section-title">圆角</div><div class="radius-grid">${radiusHtml}</div></div>`;
     }
     if (data?.shadows) {
         shadowHtml = Object.entries(data.shadows).map(([name, s]) => {
             const css = `${s.x||0}px ${s.y||0}px ${s.blur||0}px ${s.color||'rgba(0,0,0,.1)'}`;
             return `<div class="shadow-item"><div class="shadow-box" style="box-shadow:${css}"></div><div class="label">${name}</div></div>`;
         }).join('');
-        shadowHtml = `<div><div class="section-title">Shadows · 阴影</div><div class="shadow-grid">${shadowHtml}</div></div>`;
+        shadowHtml = `<div><div class="section-title">阴影</div><div class="shadow-grid">${shadowHtml}</div></div>`;
     }
     if (radiusHtml || shadowHtml) {
         document.getElementById('radius-shadow-section').innerHTML =
@@ -406,7 +406,7 @@ function render(data) {
 function setTheme(theme) {
     currentTheme = theme;
     document.querySelectorAll('.theme-toggle button').forEach(btn =>
-        btn.classList.toggle('active', btn.textContent.toLowerCase() === theme)
+        btn.classList.toggle('active', btn.dataset.theme === theme)
     );
     if (tokens) {
         applyTokens(tokens, theme);
