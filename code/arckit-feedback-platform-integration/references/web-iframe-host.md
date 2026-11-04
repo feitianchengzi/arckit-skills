@@ -15,17 +15,17 @@ iframe -> 宿主：
 
 - `feedback-sdk:ready`：SDK 已安装消息监听器，可以接收配置。
 - `feedback-sdk:close`：用户按 Escape、点击遮罩或关闭 SDK。
-- `feedback-sdk:unread-changed`：未读数变化，payload 含 `unread_count`。
+- `feedback-sdk:unread-changed`：未读数变化，载荷含 `unread_count`。
 - `feedback-sdk:unread-count`：对未读请求的响应，回传 `request_id` 和 `unread_count`。
-- `feedback-sdk:refresh-session`：Session 已过期，请宿主重新获取 token 并再次 configure。
+- `feedback-sdk:refresh-session`：会话已过期，请宿主重新获取令牌并再次调用 `configure`。
 
 宿主 -> iframe：
 
-- `feedback-sdk:configure`：payload 使用 `config` 字段。
-- `feedback-sdk:open`：payload 使用 `mode: 'submit' | 'status'`。
-- `feedback-sdk:get-unread-count`：payload 使用唯一 `request_id`。
+- `feedback-sdk:configure`：载荷使用 `config` 字段。
+- `feedback-sdk:open`：载荷使用 `mode: 'submit' | 'status'`。
+- `feedback-sdk:get-unread-count`：载荷使用唯一 `request_id`。
 
-配置与打开没有跨域 `configured` 回执；`feedback-sdk:configured` 是 iframe 内部 DOM 事件。宿主收到 `ready` 后按顺序发送 configure 和 open，浏览器会保持同一 source/target 的消息顺序。
+配置与打开没有跨域 `configured` 回执；`feedback-sdk:configured` 是 iframe 内部 DOM 事件。宿主收到 `ready` 后按顺序发送 `configure` 和 `open`，浏览器会保持同一来源和目标的消息顺序。
 
 ## 最小宿主实现
 
@@ -99,11 +99,11 @@ window.addEventListener('message', (event) => {
 })
 ```
 
-若配置需要异步读取，把 `configureAndOpen()` 改为 async，并在发送 configure/open 前等待运行时配置和稳定用户 ID；不要把凭证放进 iframe URL。
+若配置需要异步读取，把 `configureAndOpen()` 改为 `async`，并在发送 `configure`/`open` 前等待运行时配置和稳定用户 ID；不要把凭证放进 iframe URL。
 
-## Session 模式
+## 会话模式
 
-Session 模式的宿主配置只包含短期 token 和固定字段：
+会话模式的宿主配置只包含短期令牌和固定字段：
 
 ```javascript
 async function sessionConfig() {
@@ -123,7 +123,7 @@ async function sessionConfig() {
 }
 ```
 
-Session 接入把最小宿主实现中的 `feedbackConfig()` 替换为 `sessionConfig()`；收到 `feedback-sdk:refresh-session` 时重新获取 token，再发送一次 `feedback-sdk:configure`。不要把旧 token 写入 URL、日志或持久化；并发刷新应复用同一个进行中的请求。
+会话接入把最小宿主实现中的 `feedbackConfig()` 替换为 `sessionConfig()`；收到 `feedback-sdk:refresh-session` 时重新获取令牌，再发送一次 `feedback-sdk:configure`。不要把旧令牌写入 URL、日志或持久化；并发刷新应复用同一个进行中的请求。
 
 ## 未读请求
 
@@ -138,16 +138,16 @@ postToFeedback({
 
 只接受同一个 `request_id` 的 `feedback-sdk:unread-count` 响应。读取不会修改已读状态，`unread_count` 为 0 时隐藏角标。
 
-## Origin 与安全门禁
+## 来源与安全门禁
 
 - 宿主发送消息时 `targetOrigin` 固定为 `https://feedback.feitianchengzi.com`，不使用 `*`。
 - 宿主接收消息时同时校验 `event.origin`、`event.source === iframe.contentWindow` 和 `event.data.source === 'feedback-sdk-web'`。
-- SDK 会校验父页面 origin。公开 V2 构建中可见的允许项为 `https://workshop.feitianchengzi.com`、`https://feedback.feitianchengzi.com`，以及 HTTP `localhost` / `127.0.0.1`（可带端口）。第三方生产域名必须先由平台加入允许范围；该检查发生在 configure 之前，宿主代码不能绕过。
-- API Key、Session token 和完整配置对象不得写入 URL、日志、分析事件或持久化。
-- 生产部署验证 ready 是否到达、configure/open 是否生效，以及宿主 origin 是否已获平台授权。
+- SDK 会校验父页面来源。公开 V2 构建中可见的允许项为 `https://workshop.feitianchengzi.com`、`https://feedback.feitianchengzi.com`，以及 HTTP `localhost` / `127.0.0.1`（可带端口）。第三方生产域名必须先由平台加入允许范围；该检查发生在 `configure` 之前，宿主代码不能绕过。
+- API Key、会话令牌和完整配置对象不得写入 URL、日志、分析事件或持久化。
+- 生产部署验证 `ready` 是否到达、`configure`/`open` 是否生效，以及宿主来源是否已获平台授权。
 
 ## 与 V1 的关系
 
 - V1 的动态参数来源和 V2 保持一致；宿主继续在运行时取得 API Key、项目 ID 和稳定用户 ID。
-- V1 iframe 已使用 `feedback-sdk:ready`、`feedback-sdk:configure` 和 `feedback-sdk:open`；V2 延续这些消息并增加 `feedback-sdk-host`、未读和 Session 刷新。
-- V2 宿主统一使用 `source: 'feedback-sdk-host'`。不要复制 V1 仅适用于平台 Console 的 `feedback-console-web` 作为新接入默认值。
+- V1 iframe 已使用 `feedback-sdk:ready`、`feedback-sdk:configure` 和 `feedback-sdk:open`；V2 延续这些消息并增加 `feedback-sdk-host`、未读和会话刷新。
+- V2 宿主统一使用 `source: 'feedback-sdk-host'`。不要复制 V1 仅适用于平台控制台的 `feedback-console-web` 作为新接入默认值。

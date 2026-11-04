@@ -7,19 +7,19 @@
 本模式是独立的原生 API 接入，不是 SDK WebView V2 的“原生实现”。下文只记录当前已确认的 `/workshop/v1/apikey/feedbacks` 契约：
 
 - 不把 SDK V2 的 `feedbackV2AuthMode`、`feedbackSessionToken`、`feedbackV2NotificationsEnabled` 或 iframe 消息协议用于原生 API。
-- `/workshop/v2/apikey/feedback-sessions` 只用于 SDK V2 Session token 换取，不能当成原生反馈 CRUD、消息或未读接口。
-- 若用户需要与 SDK V2 能力对应的原生 API，先向平台取得 endpoint、认证、请求/响应 schema、附件、会话/消息、已读/未读契约；未取得前标记为产品缺口，不推测实现。
+- `/workshop/v2/apikey/feedback-sessions` 只用于 SDK V2 会话令牌换取，不能当成原生反馈 CRUD、消息或未读接口。
+- 若用户需要与 SDK V2 能力对应的原生 API，先向平台取得端点、认证、请求/响应数据结构、附件、会话/消息、已读/未读契约；未取得前标记为产品缺口，不推测实现。
 - 最终汇报必须写明本轮使用的是已确认的 V1 原生接口，不能笼统声称“已完成 V2 原生接入”。
 
 ## 接口
 
-Base URL:
+基础 URL：
 
 ```text
 https://api.feitianchengzi.com/workshop/v1/apikey/feedbacks
 ```
 
-Headers:
+请求头：
 
 ```http
 Authorization: Bearer <apiKey>
@@ -54,7 +54,7 @@ POST /workshop/v1/apikey/feedbacks
 - `content`: 必填或至少由 UI 强制非空。
 - `custom_user_id`: 必填，用于“我的反馈”归属；使用业务用户 ID 或持久游客 ID。
 - `file`: 可选字符串。当前接口样例接收已上传文件路径；没有文件上传接口时，不要在 UI 中承诺本地附件上传已完成。
-- `data`: 可选字符串，内容通常是 JSON string。可传 `source`、`app_version`、`device`、`feedback_state` 等扩展字段；不要放敏感个人信息。
+- `data`: 可选字符串，内容通常是 JSON 字符串。可传 `source`、`app_version`、`device`、`feedback_state` 等扩展字段；不要放敏感个人信息。
 
 实测提交响应：
 
@@ -122,9 +122,9 @@ GET /workshop/v1/apikey/feedbacks?project_id=50&custom_user_id=app_user_123&page
 
 ## UI 引导
 
-- 默认只在 Profile/Settings 中提供一个“反馈中心”入口；反馈中心内部用 tabs、segmented control 或同等导航切换“提交反馈”和“我的反馈”。
-- “提交反馈”action 最小包含标题、内容、可选联系方式或附件占位、提交按钮、提交中、提交成功、提交失败。
-- “我的反馈”action 使用 `custom_user_id` 查询，展示标题、内容摘要、`short_id`、创建时间、附件路径和 `data` 中可解析的状态。
+- 默认只在个人中心或设置中提供一个“反馈中心”入口；反馈中心内部用标签页、分段控件或同等导航切换“提交反馈”和“我的反馈”。
+- “提交反馈”操作最小包含标题、内容、可选联系方式或附件占位、提交按钮、提交中、提交成功、提交失败。
+- “我的反馈”操作使用 `custom_user_id` 查询，展示标题、内容摘要、`short_id`、创建时间、附件路径和 `data` 中可解析的状态。
 - `data` 是字符串字段，解析失败时保留原文，不要让列表崩溃。
 - `meta.total == 0` 时展示空态；请求失败时展示可重试错误态。
 - 支持附件前，先确认是否存在文件上传接口；只有拿到远端 `file` 路径后再提交反馈。
