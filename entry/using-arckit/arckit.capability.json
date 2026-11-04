@@ -18,7 +18,7 @@
       "agent_loop"
     ]
   },
-  "summary": "Runs one coherent Agent turn from explicit Project software decisions, invariants and fresh facts and trusted scene definition through a bounded, prerequisite-ready Case gap, workspace execution, evidence, Project delta, transition claim, and handoff.",
+  "summary": "依据显式的项目软件决策、不变量、最新事实与可信场景定义，由智能体在一轮内连贯推进一个有界且前置就绪的事项缺口，完成工作区执行、取证、项目增量、状态转换主张与交接。",
   "input_facts": [
     "original_user_input",
     "current_operator_increment",
@@ -63,16 +63,16 @@
     "case_resolution_without_evidence"
   ],
   "runtime_notes": [
-    "Default Runtime execution invokes one agent_loop turn per Case gap and reuses one stable Codex thread for the active todo/session.",
-    "The Agent may use native tools and other installed skills inside the same turn; Runtime does not pre-bind a fixed definition/diagnosis skill list or predictive allowed_paths.",
-    "Runtime supplies original user intent, current increment, source references, trusted Ledger entrypoints and execution authorization. The Agent reads current canonical facts and revisions through those sources; prompts do not embed project file contents or a duplicate state digest.",
-    "No suitable active Case produces a semantic case_control.create_case with outcome, initial facts, relevant impacts, and at least one dynamic gap; Runtime only binds Project revision and explicit review policy.",
-    "ArcOrbit Agent output is a snapshot-bound Semantic Case Command with explicit typed semantic relations; the trusted ledger alone allocates canonical ids/revisions, rehydrates candidates, projects reverse relations and compiles the internal Case transition. Direct Agents may use the canonical v8 transition entrypoint.",
-    "The Agent evaluates every current Project invariant against fresh Case facts and dynamically chosen skills; threatened or undetermined results become explicit Case gaps without preplanning a workflow.",
-    "Gap boundaries permit jointly decidable low-risk conclusions and isolate important decisions; selection_assessment declares prerequisites and exploration versus establishment. Boundaries follow causal dependencies, not phases, file counts or skill names. New evidence may resolve the current question; independently necessary questions remain explicit obligations for fresh selection after closeout. Professional skills do not expand the selected Gap or its authorization.",
-    "Runtime gates schema, revision, authorization, workspace safety, and ledger legality; it does not semantically re-review the Agent claim.",
-    "Successful ledger writeback exposes the ledger-produced round closeout before a separately verified post-commit snapshot and the next turn. Human responsibility pauses for operator input; external responsibility remains a recoverable system wait.",
-    "The Agent owns semantic progress assessment and continuation decisions; Runtime records observations and executes handoffs without a semantic no-progress cutoff. User stop and bounded protocol recovery remain independent.",
-    "When canonical state is protocol-incompatible, the same Agent suspends ordinary Case work, performs semantic reconciliation through the trusted ledger entrypoint, then fresh-reads and resumes the original intent."
+    "运行时默认针对每个事项缺口调用一轮 `agent_loop`，并为当前待办或会话复用同一个稳定的 Codex 线程。",
+    "智能体可以在同一轮内使用原生工具和其他已安装技能；运行时不预先绑定固定的定义或诊断技能清单，也不预测 `allowed_paths`。",
+    "运行时提供原始用户意图、当前增量、来源引用、可信账本入口与执行授权。智能体通过这些来源读取当前权威事实和修订号；提示词不嵌入项目文件正文或重复的状态摘要。",
+    "没有合适的活跃事项时，生成语义 `case_control.create_case`，包含结果、初始事实、相关影响和至少一个动态缺口；运行时只绑定项目修订号和显式复审策略。",
+    "Arckit 智能体输出绑定快照的语义事项命令，显式声明带类型的语义关系；只有可信账本可以分配权威标识与修订号、恢复候选对象、投影反向关系并编译内部事项状态转换。直接调用的智能体可以使用权威 v8 状态转换入口。",
+    "智能体依据最新事项事实和动态选择的技能，逐项判断当前项目不变量；`threatened` 或 `undetermined` 结果形成显式事项缺口，不预先编排工作流。",
+    "缺口边界允许共同决定低风险结论，并隔离重要决定；`selection_assessment` 声明前置条件并区分探索与正式建立。边界依据因果依赖，不依据阶段、文件数量或技能名称。新证据可以解决当前问题；独立且必要的问题保留为显式义务，在收尾后重新选择。专业技能不扩大选中缺口或其授权。",
+    "运行时校验模式、修订号、授权、工作区安全与账本合法性；不对智能体主张再次进行语义复审。",
+    "账本写回成功后，先展示账本生成的轮次收尾，再独立验证提交后快照并开始下一轮。人工责任暂停等待操作者输入；外部责任保持为可恢复的系统等待。",
+    "智能体负责语义进展判断与是否继续的决定；运行时记录观察并执行交接，不设置语义上的无进展停止阈值。用户停止与有界协议恢复分别保持独立。",
+    "权威状态与协议不兼容时，同一智能体暂停普通事项工作，通过可信账本入口完成语义协调转换，再重新读取最新状态并恢复原始意图。"
   ]
 }

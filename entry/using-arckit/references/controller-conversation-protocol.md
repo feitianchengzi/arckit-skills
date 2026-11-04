@@ -1,24 +1,24 @@
-# Agent Loop Conversation Protocol
+# 智能体循环对话协议
 
 ```text
-trusted ledger snapshot
--> incompatible: same-Agent semantic reconciliation -> trusted atomic apply -> fresh-read
--> compatible: state_definition + fresh Project decisions/invariants/advancement + all active Cases
--> select/create one Case
--> recover facts and actual target impacts
--> assess every current Project invariant against fresh Case facts and dynamically selected skills
--> compare persisted ready candidates with necessary work exposed in this turn
--> check local prerequisites, then select the concrete missing result with greatest advancement value; declare selection_assessment
--> select a candidate or define one Agent-owned, ready, current-turn fresh Gap
--> use new facts to resolve the selected deficit; record other necessary deficits without resolving them
--> transition records progress and either resolves that acceptance claim or leaves the same Gap open for continuation
--> trusted ledger audit/writeback -> user-visible round closeout
--> post-commit trusted snapshot receipt
--> user-visible fresh-read; independently judge the next turn
+可信账本快照
+-> 不兼容：同一智能体完成语义协调转换 -> 可信原子应用 -> 重新读取最新状态
+-> 兼容：`state_definition` + 最新项目决策、不变量与推进状态 + 全部活跃事项
+-> 选择或创建一个事项
+-> 恢复事实与实际目标影响
+-> 依据最新事项事实和动态选择的技能，逐项判断当前项目不变量
+-> 比较已持久化的就绪候选与本轮显露的必要工作
+-> 检查局部前置，再选择推进价值最大的具体缺失结果；声明 `selection_assessment`
+-> 选择一个候选，或定义一个由智能体负责、就绪且本轮新发现的缺口
+-> 用新事实解决选中缺口；记录其他必要缺口，但不解决它们
+-> 状态转换记录进展，解决该验收主张，或保留同一开放缺口供后续继续
+-> 可信账本审计与写回 -> 用户可见的轮次收尾
+-> 提交后可信快照回执
+-> 向用户展示最新状态读取结果；独立判断下一轮
 ```
 
-协议恢复分支不创建 Case/Gap、不推进产品状态；它只恢复 canonical ledger 在当前协议下的可读性。恢复后从原始用户意图重新进入正常分支，不复用恢复前的 revision 或 candidate。
+协议恢复分支不创建事项或缺口、不推进产品状态；它只恢复权威账本在当前协议下的可读性。恢复后从原始用户意图重新进入正常分支，不复用恢复前的修订号或候选。
 
-没有合适 Case 时，Agent 返回 `case_control.create_case`：包含 outcome、至少一个 accepted fact，以及由当前事实直接支持的 initial gaps，并保留已知义务和真实依赖。initial gap 选择当前最关键的独立缺口；诊断、产品、交互、技术验证或实现都可能自然胜出，不预定流程。`initial_impacts` 只有在现有证据已经表明 Project target 受到实际影响时才填写，否则为空；不得用它预测完整影响范围。注册后必须 fresh-read，不能预测 ledger 生成的 revision 或 candidate snapshot。
+没有合适事项时，智能体返回 `case_control.create_case`：包含 `outcome`、至少一个已接受事实，以及由当前事实直接支持的初始缺口，并保留已知义务和真实依赖。初始缺口选择当前最关键的独立缺口；诊断、产品、交互、技术验证或实现都可能自然胜出，不预定流程。`initial_impacts` 只有在现有证据已经表明项目目标受到实际影响时才填写，否则为空；不得用它预测完整影响范围。注册后必须重新读取最新状态，不能预测账本生成的修订号或候选快照。
 
-补充、纠错和目标变化先更新事实理解，再重新判断最重要的 candidate/fresh Gap；continuation 不按清单顺序或旧 prompt 选择，也不要求上一轮预排后续 gaps。Invariant 指导 Agent 发现必须显式判断的 Case 义务，但不生成固定工作类型：判断结果可以是 upheld、not relevant，或由 threatened/undetermined 暴露一个动态 Gap。不同 Case 可以并行，单个 Loop 每轮只接受一个 gap claim，canonical commit 按 Project 短暂串行。
+补充、纠错和目标变化先更新事实理解，再重新判断最重要的已有候选或新发现缺口；续轮不按清单顺序或旧提示词选择，也不要求上一轮预排后续缺口。不变量指导智能体发现必须显式判断的事项义务，但不生成固定工作类型：判断结果可以是 `upheld`、`not_relevant`，或由 `threatened`/`undetermined` 暴露一个动态缺口。不同事项可以并行，单个循环每轮只接受一个缺口主张，权威提交按项目短暂串行。

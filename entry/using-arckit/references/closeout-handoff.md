@@ -1,23 +1,23 @@
-# Closeout and Handoff
+# 收尾与交接
 
 ## 三层结果
 
-`round_outcome` 说明本轮是否产生可接受结果；`case_resolution` 说明整个事项是否闭合；`project_state_delta` 说明本轮被接受事实对 Project 软件定义、软件不变量、Project gaps 或 selection context 的直接影响。三者互不替代。
+`round_outcome` 说明本轮是否产生可接受结果；`case_resolution` 说明整个事项是否闭合；`project_state_delta` 说明本轮被接受事实对项目软件定义、软件不变量、项目缺口或选择上下文的直接影响。三者互不替代。
 
-## Case transition v8
+## 事项状态转换 v8
 
 ```yaml
 schema_version: arckit-case-transition/v8
 case_id: CASE-YYYYMMDD-NNN
-case_updated_at: "expected Case revision"
+case_updated_at: "预期事项修订号"
 project_revision: 12
 gap_selection:
   mode: candidate
-  basis: "why this is the most important current action"
-  snapshot_token: "selected Case scoped token from trusted snapshot"
+  basis: "为何这是当前最重要的行动"
+  snapshot_token: "可信快照中所选事项范围的令牌"
   selected_ref: "case-gap:CASE-...:GAP-..."
-  comparison_summary: "how persisted and discovered fresh candidates compared"
-  fresh_discovery_summary: "what fresh work was actually discovered"
+  comparison_summary: "已持久化候选与新发现候选的比较"
+  fresh_discovery_summary: "实际发现了哪些新工作"
   considered: []
 selected_gap: {}
 planned_transition: { goal: "...", expected_state_change: "...", selection_assessment: { ... } }
@@ -45,7 +45,7 @@ invariant_assessment:
   judgments:
     - invariant_ref: technical-decisions-remain-explainable
       disposition: threatened
-      reason: "A newly accepted fact exposes an unresolved technical-contract question."
+      reason: "新接受的事实暴露了一个尚未解决的技术契约问题。"
       fact_refs: [FACT-003]
       evidence: []
       gap_refs: [GAP-TECH-JUDGMENT]
@@ -55,20 +55,20 @@ round_outcome: completed
 case_resolution: { claimed_status: unresolved, reason: "..." }
 ```
 
-`gap_selection.mode=candidate` 时，`selected_ref` 与 `selected_gap.id` 精确指向当前 candidate；`selected_gap.goal/reason` 允许 Agent 作不改变验收主张的自然语言转述，Ledger 以 snapshot token、Case revision、稳定引用和当前 ready 状态重新解析 canonical candidate，并将 canonical 内容写入 round 与 closeout。`mode=fresh` 时，`selected_gap` 描述一个尚未持久化、Agent-owned、无未闭合依赖并在本轮完成的普通 Gap。`considered` 覆盖 selected Case scope 的 persisted candidates 和本轮实际发现的 fresh candidates，恰好一项 `selected`。两种模式都只关闭一个验收主张。`gaps_added` 只记录结果型未解决义务，不保存未来 Loop 的执行步骤；新增 Gap 只能在下一次 fresh-read 后被执行。关闭最后一个 threatened/undetermined impact 的承接 gap 时，必须将 impact 更新为 upheld 或绑定新 gap。
+`gap_selection.mode=candidate` 时，`selected_ref` 与 `selected_gap.id` 精确指向当前候选；`selected_gap.goal/reason` 允许智能体作不改变验收主张的自然语言转述，账本以快照令牌、事项修订号、稳定引用和当前就绪状态重新解析权威候选，并将权威内容写入轮次与收尾。`mode=fresh` 时，`selected_gap` 描述一个尚未持久化、由智能体负责、无未闭合依赖并在本轮完成的普通缺口。`considered` 覆盖选中事项范围的已持久化候选和本轮实际发现的新候选，恰好一项为 `selected`。两种模式都只关闭一个验收主张。`gaps_added` 只记录结果型未解决义务，不保存未来循环的执行步骤；新增缺口只能在下一次重新读取最新状态后被执行。关闭 `threatened`/`undetermined` 影响记录的最后一个承接缺口时，必须将该影响更新为 `upheld` 或绑定新缺口。
 
-`selected_gap` 和 `planned_transition` 只能由本轮 trusted snapshot 中已经接受的事实与决定直接支持。本轮 `facts_added` 可以证明 selected Gap，也可以派生 `gaps_added`，但不能在同一 transition 中成为其他下游结果的执行依据；依赖这些事实的结果必须等 closeout 和 post-commit fresh-read 后重新选择。
+`selected_gap` 和 `planned_transition` 只能由本轮可信快照中已经接受的事实与决定直接支持。本轮 `facts_added` 可以证明选中缺口，也可以派生 `gaps_added`，但不能在同一状态转换中成为其他下游结果的执行依据；依赖这些事实的结果必须等收尾和提交后最新状态读取完成后重新选择。
 
-`invariant_assessment` 必须覆盖 observed Project revision 的全部 software invariants 且每项恰好一次。`not_relevant` 需要理由；`upheld` 需要持久证据；`threatened`/`undetermined` 需要 accepted fact refs 和写回后仍 open 的 Case gap refs。它不代替 `state_impacts`：assessment 是每轮完整判断记录，impact 是 Case 中实际受影响 Project target 的持久关系。
+`invariant_assessment` 必须覆盖观察到的项目修订版本中的全部软件不变量，且每项恰好一次。`not_relevant` 需要理由；`upheld` 需要持久证据；`threatened`/`undetermined` 需要已接受事实引用和写回后仍开放的事项缺口引用。它不代替 `state_impacts`：判断是每轮完整判断记录，影响是事项中实际受影响项目目标的持久关系。
 
-Apply 成功返回 `arckit-round-closeout/v2`；只有该 receipt 中的 accepted delta、invariant assessment 与 resulting revisions 可作为“本轮已接受”证据。其 `next_candidate_projection` 为 `null`，下一 Gap 只能来自独立的 post-commit snapshot。
+应用成功返回 `arckit-round-closeout/v2`；只有该回执中的已接受增量、不变量判断与结果修订号可作为“本轮已接受”证据。其 `next_candidate_projection` 为 `null`，下一缺口只能来自独立的提交后快照。
 
-Project delta 不等待 Case resolved：长期结论在被澄清的当轮就更新对应 software decision；新事实使旧结论失效时标记 stale 并绑定 Project gap；任何被接受的 Gap 也可更新 Project gaps 和 selection context。所有 changes 都绑定 observed Project revision 并在 Project lock 内与 Case transition 原子提交。
+项目增量不等待事项解决：长期结论在被澄清的当轮就更新对应软件决策；新事实使旧结论失效时标记 `stale` 并绑定项目缺口；任何被接受的缺口也可更新项目缺口和选择上下文。所有变更都绑定观察到的项目修订号，并在项目锁内与事项状态转换原子提交。
 
-软件定义 change 更新协议已有 decision area；非核心 invariant 才允许 add/update/retire，且必须是跨 Case 的抽象正确性约束。核心 invariant 只允许由协议升级用 `sync_core` 精确同步 canonical 定义。不得写入 skill、path、owner、固定流程或把项目具体事实变成 invariant。
+软件定义变更更新协议已有决策领域；非核心不变量才允许 `add`/`update`/`retire`，且必须是跨事项的抽象正确性约束。核心不变量只允许由协议升级用 `sync_core` 精确同步权威定义。不得写入技能、路径、负责人、固定流程或把项目具体事实变成不变量。
 
-## Completion Review 与 handoff
+## 完成复审与交接
 
-普通工作全部闭合后，Review 只检查 implementation correctness、problem resolution、verification credibility、regression risk 和 minimality。Finding 转成普通动态 gap；解决 finding 会提升 content revision，随后重新 Review。它是唯一显式语义自查，也是兜底而非常规事实维护阶段。Case resolved 后不在该历史验收上追加语义工作；完成后的新发现按正常入口 fresh-read，再选择适合的 active Case 或有依据的后续 Case。
+普通工作全部闭合后，复审只检查实现正确性、问题解决、验证可信度、回归风险和最小性。发现的问题转成普通动态缺口；解决问题会提升内容修订号，随后重新复审。它是唯一显式语义自查，也是兜底而非常规事实维护阶段。事项解决后不在该历史验收上追加语义工作；完成后的新发现按正常入口重新读取最新状态，再选择适合的活跃事项或有依据的后续事项。
 
-只有 `next_responsibility=human` 暂停并要求用户。`external` 保存恢复条件；`agent` fresh-read 后自动继续；`none` 表示 ledger 已派生 resolved。
+只有 `next_responsibility=human` 暂停并要求用户。`external` 保存恢复条件；`agent` 重新读取最新状态后自动继续；`none` 表示账本已派生 `resolved`。
