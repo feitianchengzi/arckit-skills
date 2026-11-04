@@ -4,7 +4,7 @@
   "kind": "diagnosis",
   "runtime_role": ["work_executor", "verification_agent"],
   "binding_targets": ["worker"],
-  "summary": "Diagnoses bugs, regressions, failures, data issues, UI defects, and performance symptoms using evidence.",
+  "summary": "依据证据诊断缺陷、回归、失败、数据问题、UI 缺陷和性能异常。",
   "input_facts": [
     "symptom",
     "logs",
@@ -26,6 +26,6 @@
     "case_closed"
   ],
   "runtime_notes": [
-    "Use as an execution capability; route stable expectation changes back to result fact skills."
+    "作为执行能力使用；将稳定预期的变更交回维护结果事实的技能处理。"
   ]
 }
