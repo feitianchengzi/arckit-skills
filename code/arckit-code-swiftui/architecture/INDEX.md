@@ -1,6 +1,6 @@
-# Architecture Index
+# 架构索引
 
-本目录定义 ArcKit SwiftUI 默认目标架构。新项目和新功能默认采用这些代码形状；已有代码偏离时，把偏离视为迁移成本输入，而不是照抄理由。
+本目录定义 Arckit SwiftUI 默认目标架构。新项目和新功能默认采用这些代码组织方式；已有代码偏离时，应评估迁移成本，不能以此为由照抄。
 
 ## 默认结构
 
@@ -9,9 +9,9 @@ App
 -> RootView
 -> FeatureView
 -> FeatureStore
--> FeatureService protocol
--> Service implementation
--> API / Persistence / Platform Adapter
+-> FeatureService 协议
+-> Service 实现
+-> API / Persistence / 平台 Adapter
 -> Tests
 ```
 
@@ -30,7 +30,7 @@ Shared/
 
 ## 读取顺序
 
-从 0 项目先读 `project-structure.md`、`dependency-injection.md` 和 `design-tokens.md`。新增功能读 `feature-module.md`、`state-model.md` 和 `view-composition.md`。涉及外部数据读 `service-boundary.md`。涉及系统能力读 `platform-adapter.md`。涉及外部入口读 `navigation.md`。写完补 `testing.md`。
+从零创建项目时先读 `project-structure.md`、`dependency-injection.md` 和 `design-tokens.md`。新增功能读 `feature-module.md`、`state-model.md` 和 `view-composition.md`。涉及外部数据读 `service-boundary.md`。涉及系统能力读 `platform-adapter.md`。涉及外部入口读 `navigation.md`。编写完成后按 `testing.md` 补充测试。
 
 ## 偏离处理
 

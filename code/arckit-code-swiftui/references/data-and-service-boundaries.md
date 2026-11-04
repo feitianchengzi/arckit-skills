@@ -1,39 +1,39 @@
-# Data And Service Boundaries
+# 数据与 Service 边界
 
 ## Service 设计
 
-Service 负责外部能力、API、系统 adapter、缓存或持久化边界。View 只依赖稳定接口，不直接拼 URL、处理 token、解析底层错误码、访问 Keychain 或操作文件路径。
+Service 负责外部能力、API、系统 Adapter、缓存或持久化边界。View 只依赖稳定接口，不直接拼接 URL、处理令牌、解析底层错误码、访问 Keychain 或操作文件路径。
 
-Service API 返回领域模型、稳定错误类型、`Data`、`URL`、MIME type、业务 id 或领域枚举；不要把 Apple UI 类型泄漏到业务层。
+Service API 返回领域模型、稳定错误类型、`Data`、`URL`、MIME 类型、业务 ID 或领域枚举；不要把 Apple UI 类型泄漏到业务层。
 
 ## 网络
 
 - 优先使用项目现有 URLSession/APIClient 抽象。
-- 使用 async/await，支持取消、超时和错误映射。
-- DTO 到领域模型映射放在 service 或 mapper。
-- 资源详情响应不默认等于完整领域模型；若页面依赖列表、搜索、推荐位或分享入口携带的摘要字段，service/mapper 必须定义保留、补全或合并策略，并覆盖“详情成功但摘要字段缺失”的路径。
+- 使用 `async/await`，支持取消、超时和错误映射。
+- DTO 到领域模型的映射放在 Service 或映射器。
+- 资源详情响应不默认等于完整领域模型；若页面依赖列表、搜索、推荐位或分享入口携带的摘要字段，Service 或映射器必须定义保留、补全或合并策略，并覆盖“详情成功但摘要字段缺失”的路径。
 - 错误至少区分网络、认证、权限、业务错误、超时、取消和解析失败。
-- token refresh 使用 single-flight，避免并发刷新覆盖。
-- 分页明确 cursor/page、去重、刷新和空页策略。
-- 上传下载明确文件 URL、MIME type、filename、进度、取消和失败恢复。
-- 网络日志脱敏，不记录 token、密钥和完整敏感 payload。
+- 令牌刷新应合并为同一个进行中的请求，避免并发刷新覆盖。
+- 分页明确游标或页码、去重、刷新和空页策略。
+- 上传下载明确文件 URL、MIME 类型、文件名、进度、取消和失败恢复。
+- 网络日志脱敏，不记录令牌、密钥和完整敏感载荷。
 
 ## 本地数据
 
-结构化持久数据沿用 SwiftData/Core Data 或项目当前存储。简单偏好使用 UserDefaults/AppStorage。敏感凭据使用 Keychain。Widget/扩展共享数据放入 App Group container。大文件和图片缓存使用 FileManager、URLCache 或项目缓存 actor。
+结构化持久数据沿用 SwiftData/Core Data 或项目当前存储。简单偏好使用 UserDefaults/AppStorage。敏感凭据使用 Keychain。Widget/扩展共享数据放入 App Group 容器。大文件和图片缓存使用 FileManager、URLCache 或项目缓存 actor。
 
-SwiftData schema 变化需要迁移或读取兼容路径。缓存身份要区分原图、缩略图、fallback、远端 URL 和本地文件。离线同步队列、冲突合并和后台刷新不要写在 View 或 `@Query` 派生逻辑中。
+SwiftData 数据结构变化需要迁移或读取兼容路径。缓存身份要区分原图、缩略图、回退内容、远端 URL 和本地文件。离线同步队列、冲突合并和后台刷新不要写在 View 或 `@Query` 派生逻辑中。
 
-缓存不仅有 payload 生命周期，也有 refresh metadata 生命周期。refresh key 必须表达请求语义，例如范围、筛选、分页、季度、用户维度；同一领域实体的列表摘要、详情补全、用户态、媒体资源不能共用一个通用 `lastSyncedAt` 判断新鲜度。只有对应 payload 成功落库后，才更新对应 refresh metadata。
+缓存需要分别管理数据载荷和刷新元数据的生命周期。刷新键必须表达请求语义，例如范围、筛选、分页、季度、用户维度；同一领域实体的列表摘要、详情补全、用户态、媒体资源不能共用一个通用 `lastSyncedAt` 判断新鲜度。只有对应数据载荷成功落库后，才更新对应刷新元数据。
 
 ## 媒体管线
 
-不要在页面散落 `AsyncImage`；优先统一远程图片组件或 loader。图片状态至少表达 loading、success、failure、fallback、retrying。长列表图片尺寸、解码、缓存和取消受控。
+不要在页面散落 `AsyncImage`；优先统一远程图片组件或加载器。图片状态至少表达加载中、成功、失败、回退和重试中。长列表图片尺寸、解码、缓存和取消受控。
 
-上传前把平台图片转换为 `Data`、`URL`、MIME type、filename。头像、证件照或用户原图上传前按项目隐私策略处理 EXIF、位置元数据和方向。
+上传前把平台图片转换为 `Data`、`URL`、MIME 类型和文件名。头像、证件照或用户原图上传前按项目隐私策略处理 EXIF、位置元数据和方向。
 
 ## AI 生成链路
 
-Prompt builder、schema、validator 和 generation service 不写在 View 中。View 只协调输入、生成状态、取消、重试和结果展示。stream 状态区分 connecting、streaming、validating、success、failed、cancelled。生成结果保存前先通过领域校验。
+提示词构建器、数据结构、校验器和生成 Service 不写在 View 中。View 只协调输入、生成状态、取消、重试和结果展示。流式状态区分连接中、流式传输中、校验中、成功、失败、已取消。生成结果保存前先通过领域校验。
 
-模型输出必须经过结构抽取、decode/parse、领域模型转换、领域校验和质量检查；质量门要在代码里实现，不能只依赖 prompt。涉及积分、额度、订阅或扣费时，区分扣费前失败、扣费后失败、取消和重试，防止重复点击造成权益状态不一致。
+模型输出必须经过结构抽取、解码或解析、领域模型转换、领域校验和质量检查；质量门禁要在代码里实现，不能只依赖提示词。涉及积分、额度、订阅或扣费时，区分扣费前失败、扣费后失败、取消和重试，防止重复点击造成权益状态不一致。

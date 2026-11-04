@@ -1,4 +1,4 @@
-# Feature Module
+# Feature 模块
 
 ## 默认文件
 
@@ -10,7 +10,7 @@ Features/Home/
 └── HomeService.swift
 ```
 
-## View 形状
+## View 结构
 
 ```swift
 struct HomeView: View {
@@ -27,11 +27,11 @@ struct HomeView: View {
 }
 ```
 
-View 表达状态，不拼 URL、不解析 DTO、不做 Keychain/FileManager/系统 bridge。
+View 表达状态，不拼接 URL、不解析 DTO、不操作 Keychain/FileManager，也不做系统桥接。
 
-子 View 只接收 display model、简单值、`Binding`、样式枚举和动作闭包。子 View 不直接访问页面级 service、`@Query`、`modelContext` 或导航器；需要展示转换时先建 display model。
+子 View 只接收展示模型、简单值、`Binding`、样式枚举和动作闭包。子 View 不直接访问页面级 Service、`@Query`、`modelContext` 或导航器；需要展示转换时先建立展示模型。
 
-## Store 形状
+## Store 结构
 
 ```swift
 @MainActor
@@ -57,11 +57,11 @@ final class HomeStore {
 }
 ```
 
-Store 协调用户动作、状态流和 service 调用。业务流程不要塞进 View。
+Store 协调用户动作、状态流和 Service 调用。业务流程不要塞进 View。
 
-## Models 形状
+## Models 结构
 
-领域模型表达 App 使用方式，不照搬后端 DTO。Display model 只服务展示转换，不污染领域模型。
+领域模型表达应用使用方式，不照搬后端 DTO。展示模型只服务于展示转换，不污染领域模型。
 
 ```swift
 struct HomeItemDisplayModel: Identifiable, Equatable, Sendable {
@@ -75,9 +75,9 @@ struct HomeItemDisplayModel: Identifiable, Equatable, Sendable {
 }
 ```
 
-## Service Protocol
+## Service 协议
 
-Feature 自己声明需要的 capability：
+Feature 自己声明所需能力：
 
 ```swift
 protocol HomeService: Sendable {
@@ -85,4 +85,4 @@ protocol HomeService: Sendable {
 }
 ```
 
-实现可以组合 API、cache、platform adapter；View 和 Store 只依赖 protocol。
+实现可以组合 API、缓存和平台 Adapter；View 和 Store 只依赖协议。

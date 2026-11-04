@@ -1,8 +1,8 @@
-# Design Tokens
+# 设计令牌
 
 ## 默认规则
 
-稳定视觉值必须通过 `DesignTokens` 或项目既有设计系统访问。颜色默认来自 Asset Catalog 的语义 colorset；系统色可直接引用；临时调试色不能进入长期代码。
+稳定视觉值必须通过 `DesignTokens` 或项目既有设计系统访问。颜色默认来自 Asset Catalog 的语义颜色集；系统色可直接引用；临时调试色不能进入长期代码。
 
 ```swift
 enum DesignTokens {
@@ -17,7 +17,7 @@ enum DesignTokens {
 }
 ```
 
-不要在 View 中散落 `Color(red:green:blue:)`、hex、硬编码字号、间距和圆角。新 token 先补 Asset Catalog 或项目设计系统入口，再在 View 中使用。
+不要在 View 中散落 `Color(red:green:blue:)`、十六进制色值、硬编码字号、间距和圆角。新增设计令牌时先补充 Asset Catalog 或项目设计系统入口，再在 View 中使用。
 
 ## View 使用
 

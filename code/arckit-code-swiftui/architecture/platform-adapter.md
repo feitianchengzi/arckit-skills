@@ -1,8 +1,8 @@
-# Platform Adapter
+# 平台 Adapter
 
 ## Adapter 边界
 
-系统能力隔离在 service、adapter、representable、coordinator 或 platform helper。业务 model 不依赖 Apple UI 类型。
+系统能力隔离在 Service、Adapter、Representable、Coordinator 或平台辅助组件。业务模型不依赖 Apple UI 类型。
 
 ```swift
 protocol KeychainStoring: Sendable {
@@ -12,7 +12,7 @@ protocol KeychainStoring: Sendable {
 }
 ```
 
-## App Group
+## App Group 共享容器
 
 ```swift
 protocol AppGroupPathProviding: Sendable {
@@ -20,11 +20,11 @@ protocol AppGroupPathProviding: Sendable {
 }
 ```
 
-App、Widget、扩展共享路径集中管理，业务 key 稳定。
+应用、Widget、扩展的共享路径集中管理，业务键保持稳定。
 
-## UIKit/AppKit Bridge
+## UIKit/AppKit 桥接
 
-Representable 只暴露稳定输入、输出回调和 reset id。Delegate/coordinator 不进入业务 model/service。
+Representable 只暴露稳定输入、输出回调和重置 ID。Delegate/Coordinator 不进入业务模型或 Service。
 
 ```swift
 struct PlatformZoomView<Content: View>: UIViewRepresentable {
@@ -37,4 +37,4 @@ struct PlatformZoomView<Content: View>: UIViewRepresentable {
 
 ## 配置同步
 
-使用系统能力时同步检查 Info.plist、entitlements、Privacy Manifest、App Group、Associated Domains、Developer/服务端配置和验证路径。
+使用系统能力时同步检查 Info.plist、entitlements、Privacy Manifest、App Group、Associated Domains、开发者后台与服务端配置和验证路径。

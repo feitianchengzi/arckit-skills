@@ -1,6 +1,6 @@
-# Testing
+# 测试
 
-## Store Async Test
+## Store 异步测试
 
 ```swift
 @MainActor
@@ -16,9 +16,9 @@
 }
 ```
 
-## Fake Service
+## Service 测试替身
 
-Fake 实现 feature service protocol，不走真实网络、Keychain、文件系统或系统弹窗。
+测试替身实现 Feature 的 Service 协议，不访问真实网络、Keychain、文件系统，也不触发系统弹窗。
 
 ```swift
 private struct FakeHomeService: HomeService {
@@ -36,18 +36,18 @@ private struct FakeHomeService: HomeService {
 
 ## 可控输入
 
-时间、UUID、clock、network client、cache、keychain、analytics、logger 通过依赖注入替换。不要为了单个测试引入全局可变 singleton。
+时间、UUID、时钟、网络客户端、缓存、Keychain、分析服务和日志记录器通过依赖注入替换。不要为了单个测试引入全局可变单例。
 
-Store 测试直接构造 Store 并传入 fake service；View 预览使用 preview service 或固定 display model。Preview 不访问真实网络、Keychain、文件系统或系统权限。
+Store 测试直接构造 Store 并传入 Service 测试替身；View 预览使用预览用 Service 或固定展示模型。Preview 不访问真实网络、Keychain、文件系统或系统权限。
 
 ## 构建前置
 
-涉及 Swift Package 依赖的构建/测试，先按 `references/validation-and-testing.md` 使用 `scripts/xcodebuild-verify.sh` 解析 package，再执行 build/test。
+涉及 Swift Package 依赖的构建或测试，先按 `references/validation-and-testing.md` 使用 `scripts/xcodebuild-verify.sh` 解析包，再执行构建或测试。
 
 ## 覆盖目标
 
-- Store：success、empty、error、cancel、stale result。
-- Service：DTO mapper、错误分类、token refresh、cache refresh metadata。
-- Navigation：URL parse/build round-trip，无效链接 fallback。
+- Store：成功、空数据、错误、取消、过期结果。
+- Service：DTO 映射器、错误分类、令牌刷新、缓存刷新元数据。
+- Navigation：URL 解析与构建的往返测试、无效链接回退。
 - Platform：权限拒绝、不可用、系统失败、App Group 路径。
 - Persistence：旧数据、损坏数据、迁移样本。
