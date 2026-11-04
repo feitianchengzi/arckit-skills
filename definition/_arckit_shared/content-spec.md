@@ -1,6 +1,6 @@
-# ArcKit 规格文档内容规范（Skill 参考）
+# Arckit 规格文档内容规范（技能参考）
 
-本文件为 arckit-spec / arckit-tech / arckit-interaction / arckit-visual 共用的规则参考，各 SKILL.md 内含精简摘要，此处提供完整细节供按需读取。
+本文件为 `arckit-spec` / `arckit-tech` / `arckit-interaction` / `arckit-visual` 共用的规则参考，各 `SKILL.md` 内含精简摘要，此处提供完整细节供按需读取。
 
 ---
 
@@ -8,12 +8,12 @@
 
 正文使用陈述式、现在时，描述目标系统应当是什么。
 
-**允许**：「该功能支持 X」「Token 取值为 #...」「触发 A，系统响应 B」「不支持 X」（边界约束）
+**允许**：「该功能支持 X」「设计变量取值为 #...」「触发 A，系统响应 B」「不支持 X」（边界约束）
 
 **禁止**：
 - 改版叙事：「本次将 X 改为 Y」「相比旧版…」「经讨论后…」
 - 落地建议：「可以先简化」「早期阶段暂时」「后续再完善」「可先硬编码」
-- 过程叙事（非 research 文档）：「我们调研了三个方案，最终选择…」
+- 过程叙事（非调研文档）：「我们调研了三个方案，最终选择…」
 
 正式正文不记录变更过程；变更摘要保留在 `document_scope` 和 Git 历史。交互/视觉 `_explorations/` 的专用记录可保存比较、选择依据和采纳关系，不属于正式预期正文。
 
@@ -21,7 +21,7 @@
 
 ## 禁止混入的内容（全域）
 
-适用于所有 arckit/* 主文档（contracts/models YAML 除外，它们是结果规格本身）：
+适用于所有 `arckit/*` 主文档（契约/模型 YAML 除外，它们是结果规格本身）：
 
 - 成本预估、人力估算
 - 排期、里程碑、版本迭代计划
@@ -40,7 +40,7 @@
 | `tech/decision.md` | 决策结论及理由、ADR 格式的「不选 X 原因」 | 成本/排期、简化建议 |
 | `tech/_shared/contracts/*.yaml` | 接口签名、请求/响应结构、错误码 | 无限制 |
 | `tech/_shared/models/*.yaml` | 实体属性、关系、约束 | 无限制 |
-| `visual/tokens.yaml`、`components/*.yaml` | Token 值及语义描述、各状态视觉定义 | CSS/HTML 实现片段 |
+| `visual/tokens.yaml`、`components/*.yaml` | 设计变量值及语义描述、各状态视觉定义 | CSS/HTML 实现片段 |
 | `interaction/interaction.md` | 触发条件与响应、状态机规则、异常态处理 | 实现代码、改版叙事 |
 | `interaction/default.html` 及原型资源 | 可交互原型、本地模拟状态；有视觉规范时按规范呈现，无规范时极简线框 | 真实业务执行、把模拟结果当成生产证据、无依据的正式视觉取舍 |
 | `interaction/_explorations/`、`visual/_explorations/` | 候选产物、基线、比较、未决问题、采纳与组合依据 | 未确认候选混入正式事实、静默批准方向 |
@@ -72,5 +72,5 @@
 若发现多个已有文件域重叠（同一主题分散多处）：先合并，再处理变更，合并记入 `document_scope.reorganized`。
 
 **两个独立维度，互不替代**：
-- 域归属：新内容去哪里（并入 vs 新建）
+- 域归属：新内容去哪里（并入或新建）
 - 体积拆分：文件是否过大（如何分）
