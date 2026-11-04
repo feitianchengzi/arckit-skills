@@ -46,7 +46,7 @@
 3. 更新 INDEX.md「数据模型」部分（添加条目+行数 如 `(65行)`）
 4. 更新 arckit/_map/RELATIONS.md（功能→模型、API→模型映射）
 5. 更新 arckit/_map/feature-matrix.md（模型状态列）
-6. 如关联 spec 功能 → 更新对应 feature.md 元信息中的「关联模型」
+6. 如关联产品规格功能 → 更新对应 feature.md 元信息中的「关联模型」
 
 ---
 
@@ -56,7 +56,7 @@
 2. 更新 INDEX.md「API 契约」部分（添加条目+行数 如 `(95行)`）
 3. 更新 arckit/_map/RELATIONS.md（功能→API、设计→API、API→模型映射）
 4. 更新 arckit/_map/feature-matrix.md（API 状态列）
-5. 如关联 spec 功能 → 更新对应 feature.md 元信息中的「关联API」
+5. 如关联产品规格功能 → 更新对应 feature.md 元信息中的「关联API」
 
 ---
 
@@ -68,7 +68,7 @@
 
 1. 创建 arckit/tech/_shared/models/{Model}.yaml
 2. 更新 arckit/tech/INDEX.md 共享定义部分
-3. 在引用方的 YAML 中使用 $ref 引用
+3. 在引用方的 YAML 中使用 `$ref` 引用
 
 ---
 
@@ -76,7 +76,7 @@
 
 **拆分方式**（按分析结果选择）：
 
-- **按模块拆方案（solution.md >500行）**：拆为多个独立 solution（如 auth-solution.md、session-solution.md）；分配新 TECH-ID
+- **按模块拆方案（solution.md >500行）**：拆为多个独立方案（如 auth-solution.md、session-solution.md）；分配新 `TECH-ID`
 - **按候选方案拆调研（research.md >800行）**：每个候选方案独立 research.md
 - **按决策主题拆记录（decision.md >500行）**：创建子领域 decision.md
 - **按子领域分组（单领域 >6 个方案）**：创建子领域目录；移动相关方案

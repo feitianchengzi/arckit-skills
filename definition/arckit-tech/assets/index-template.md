@@ -6,7 +6,7 @@
 <!-- _shared/models/、_shared/contracts/ 与各领域方案/模型/契约均在此列出 -->
 <!-- 示例:
 - user-management/ 用户管理：认证方案、权限模型。✅
-  - auth-solution.md 认证方案：JWT、Refresh Token。✅ (420行)
+  - auth-solution.md 认证方案：JWT、刷新令牌。✅ (420行)
 - _shared/models/ 数据模型
   - User.yaml 用户实体。✅ (85行)
 - _shared/contracts/ API契约

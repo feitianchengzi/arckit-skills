@@ -25,7 +25,7 @@
   拆分方式: 按模块拆为 3 个方案（认证方案/授权方案/会话方案）
   预期结构:
     - user-management/
-      - auth-solution.md 认证方案：JWT实现、Refresh Token、多端登录。(210行)
+      - auth-solution.md 认证方案：JWT实现、刷新令牌、多端登录。(210行)
       - authz-solution.md 授权方案：RBAC模型、资源权限、动态策略。(190行)
       - session-solution.md 会话方案：Redis存储、过期策略、并发控制。(180行)
   连带更新:

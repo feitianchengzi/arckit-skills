@@ -1,24 +1,24 @@
 ---
 name: arckit-tech
-description: "维护 arckit/tech/ 下的技术方案、架构说明、数据模型和 API 契约。适用于需要查询、创建、更新或审计稳定技术预期事实的场景。输出变更涉及的 tech 路径和一句话摘要。"
+description: "维护 arckit/tech/ 下的技术方案、架构说明、数据模型和 API 契约。适用于需要查询、创建、更新或审计稳定技术预期事实的场景。输出变更涉及的技术文档路径和一句话摘要。"
 ---
 
-# ArcKit Tech
+# Arckit 技术方案
 
-管理 `arckit/tech/` 的技术文档与数据契约，遵循「INDEX 驱动、动态拆解、Progressive Disclosure」原则。
+管理 `arckit/tech/` 的技术文档与数据契约，遵循「索引驱动、动态拆解、渐进式披露」原则。
 
-## 过程 Handoff 接收规则
+## 过程交接接收规则
 
-本 skill 是结果型 skill，`arckit/tech/` 仍是技术方案、模型和契约事实的 source of truth。可以接收用户、Controller worker report、实现证据、稳定事实源或外部 adapter 提供的明确材料，但接收不等于自动写入。
+本技能是结果型技能，`arckit/tech/` 仍是技术方案、模型和契约事实的权威来源。可以接收用户、控制器工作单元报告、实现证据、稳定事实源或外部适配器提供的明确材料，但接收不等于自动写入。
 
-- 先把 handoff 当作候选输入，按下方 INDEX 全局分析和技术域归属判定决定并入、新建、拆分、归档或暂不采纳。
+- 先把交接材料当作候选输入，按下方索引全局分析和技术域归属判定决定并入、新建、拆分、归档或暂不采纳。
 - 只把已确认的架构结论、约束、模型、接口和决策理由写入结果文档。
-- 候选方案讨论、实现过程、排期、临时绕过和未验证推断不得写入 tech 主线。
-- 仍需讨论的权衡保留在 active case 的 `open_questions`；影响外部推进的内容写入 `pending_handoffs`，需要人类技术取舍时标记 `human_decision_required`。
+- 候选方案讨论、实现过程、排期、临时绕过和未验证推断不得写入技术方案主线。
+- 仍需讨论的权衡保留在活跃 `Case` 的 `open_questions`；影响外部推进的内容写入 `pending_handoffs`，需要人类技术取舍时标记 `human_decision_required`。
 
-## Case State 驱动模式
+## 案例状态驱动模式
 
-Agent 判断当前 dynamic gap 需要查询或维护技术事实时，向本 skill 提供 `case_gap`。先读取 [`../_arckit_shared/case-gap-contract.md`](../_arckit_shared/case-gap-contract.md)，再基于完整上下文进入 managed-case 模式。代码、配置、测试与运行结果只是相关证据；本 skill 返回稳定技术事实，不写 Case/Project State、不规定工作顺序、不从实现存在推断架构已接受。没有 `case_gap` 时使用 standalone 模式。
+智能体判断当前动态缺口需要查询或维护技术事实时，向本技能提供 `case_gap`。先读取[案例缺口契约](../_arckit_shared/case-gap-contract.md)，再基于完整上下文进入托管案例（`managed-case`）模式。代码、配置、测试与运行结果只是相关证据；本技能返回稳定技术事实，不写 `Case State` / `Project State`、不规定工作顺序、不从实现存在推断架构已接受。没有 `case_gap` 时使用独立（`standalone`）模式。
 
 ## 核心结构
 
@@ -26,7 +26,7 @@ Agent 判断当前 dynamic gap 需要查询或维护技术事实时，向本 ski
 tech/
 ├── INDEX.md                 # 【入口】缩进树形索引（每级一句+文档行数）
 ├── CONVENTIONS.md          # 规范
-├── _shared/                # 公共资产（所有 models/contracts 统一在此）
+├── _shared/                # 公共资产（所有模型/契约统一在此）
 │   ├── models/             # 数据模型 YAML（扁平）
 │   └── contracts/          # API 契约 YAML（扁平）
 ├── [tech-domain]/          # 技术领域（有归属用分级嵌套）
@@ -34,7 +34,7 @@ tech/
 │   ├── solution.md         # 方案（300-500行）
 │   ├── decision.md         # 决策记录
 │   └── [sub-domain]/       # 子领域（深度不限）
-├── _spikes/                # POC
+├── _spikes/                # 概念验证
 └── _archive/
 ```
 
@@ -46,7 +46,7 @@ tech/
 ✅ 已采用 | 🔬 调研中 | 📋 调研完成 | ❌ 已废弃 | ⚪ 待定
 
 - user-management/ 用户管理：认证方案、权限模型、会话策略。✅
-  - auth-solution.md 认证方案：JWT实现、Refresh Token、多端登录。✅ (420行)
+  - auth-solution.md 认证方案：JWT实现、刷新令牌、多端登录。✅ (420行)
   - rbac-solution.md 权限模型：RBAC设计、资源树、动态策略。✅ (380行)
 - _shared/models/ 数据模型：跨领域实体定义。
   - User.yaml 用户实体：基础属性、关系映射、索引策略。✅ (85行)
@@ -57,14 +57,14 @@ tech/
 **关键**：
 - 直接写文件名/目录名（不用链接语法）
 - 一句话总结列出2-3个核心技术点/模块
-- 每个文档后标注行数，models/contracts 也标注便于监控复杂度
+- 每个文档后标注行数，模型/契约也标注便于监控复杂度
 - 依赖关系在 _map/RELATIONS.md 维护，不写在 INDEX 行内
 
 ## 正文规范（强制）
 
 `arckit/tech/` 下的主文档是**技术结果规格**，描述已定稿的技术方案、数据契约与模型事实。完整规范见 [`../_arckit_shared/content-spec.md`](../_arckit_shared/content-spec.md)，以下为执行摘要。
 
-**语体**：陈述式、现在时，写「方案采用 X 架构」「接口响应结构为 Y」。禁止改版叙事（「本次改为…」）、落地建议（「可先硬编码」「早期阶段暂时」）、过程叙事（在非 research 文档中）。
+**语体**：陈述式、现在时，写「方案采用 X 架构」「接口响应结构为 Y」。禁止改版叙事（「本次改为…」）、落地建议（「可先硬编码」「早期阶段暂时」）、过程叙事（在非调研文档中）。
 
 **禁止混入**：成本/排期/版本迭代计划；工程实施建议（简化方案、临时绕过）；Markdown 文件内的大段可运行业务代码（完整函数体、类实现、服务脚本）。
 
@@ -72,7 +72,7 @@ tech/
 - `solution.md`：架构、数据流、组件职责、短伪代码或引用契约均可；禁止完整实现代码
 - `research.md`：方案选型分析本身是结果交付物——候选方案的简洁陈述（是什么/适用场景/权衡）、选定方案及理由均属于正式内容；未选用方案简洁说明即可；禁止时间性过程叙述（会议流水账、「反复讨论后」）、成本/排期、落地建议
 - `decision.md`：决策结论及理由、ADR 格式的「不选 X 原因」；禁止成本/排期/简化建议
-- `_shared/contracts/*.yaml` 和 `models/*.yaml`：**是结果规格本身**，不受「禁止代码」约束，按 Schema 规范完整维护
+- `_shared/contracts/*.yaml` 和 `models/*.yaml`：**是结果规格本身**，不受「禁止代码」约束，按结构规范完整维护
 
 **历史内容处置**：① 已过时直接删除；② 有保留价值的移入文档末尾 `## 历史对照` 或 `## 弃用说明` 附录块；③ 附录块内仍用陈述式。
 
@@ -89,15 +89,15 @@ tech/
 
 **若判定为查询**：
 1. 只读 `arckit/tech/INDEX.md`（必要时按需读少量相关文档）。
-2. 输出 `document_scope` 后**结束**，不执行任何写操作。输出格式见下方「最终输出：document_scope」之 `scope_kind: query`。
+2. 输出 `document_scope` 后**结束**，不执行任何写操作。输出格式见下方「最终输出：`document_scope`」之 `scope_kind: query`。
 
 **若判定为变更**：继续执行「INDEX 全局分析」及后续步骤；执行结束后必须输出 `document_scope`，格式见 `scope_kind: change`。
 
 ---
 
-### 最终输出：document_scope（每次调用结束前必须输出）
+### 最终输出：`document_scope`（每次调用结束前必须输出）
 
-本 Skill 必须输出 `document_scope`；同时按 Case Gap Contract 输出 `fact_result`。managed-case 模式的结果供当前 Agent 汇总为 transition 证据，standalone 模式只描述本次事实影响。
+本技能必须输出 `document_scope`；同时按案例缺口契约输出 `fact_result`。托管案例模式的结果供当前智能体汇总为 `transition` 证据，独立模式只描述本次事实影响。
 
 **查询结束时**（只读，无写操作）：
 ```yaml
@@ -106,7 +106,7 @@ document_scope:
   root: arckit/tech/
   paths:
     - path: user-management/auth-solution.md
-      summary: 认证方案文档，JWT 与 Refresh Token 实现
+      summary: 认证方案文档，JWT 与刷新令牌实现
 ```
 
 **变更结束时**（执行了新建/更新/拆分/归档等）：
@@ -140,7 +140,7 @@ document_scope:
 
 新内容落地前，判断 INDEX 中是否已有**职责覆盖同一技术域**的文件：
 
-- 有同域文件 → **默认并入**（更新/重写该文件对应章节），不新建平行 solution/research
+- 有同域文件 → **默认并入**（更新/重写该文件对应章节），不新建平行的方案/调研文档
 - 有同域文件但职责已明显分化 → 阐明拆分理由，再新建
 - 无同域文件 → 新建，路径按 INDEX 枝命名
 - 发现多个文件域重叠 → 先合并再处理变更，合并记入 `document_scope.reorganized`
@@ -149,15 +149,15 @@ document_scope:
 
 ---
 
-### 操作入口（详细步骤见 reference）
+### 操作入口（详细步骤见参考文档）
 
 1. **新建技术领域**：`bash scripts/new-domain.sh <domain-name> [tech-dir]`；创建目录，再更新 INDEX.md。
 2. **技术调研**：research.md >700行 需先拆则先拆；用 assets/research-template.md 创建 research.md、更新 INDEX 与 decision-log。
 3. **方案设计**：`bash scripts/new-solution.sh <domain-name> <solution-name> [tech-dir]`；solution.md >450行 需先拆则先拆；创建 solution.md（路径即标识），再更新 INDEX 与 _map。
-4. **决策记录**：在 decision.md 添加决策、更新 decision-log、同步 solution 与 INDEX 状态。
+4. **决策记录**：在 `decision.md` 添加决策、更新决策日志、同步方案与索引状态。
 5. **定义数据模型**：`bash scripts/new-model.sh <entity-name> [tech-dir]`；统一在 _shared/models/，创建 YAML（路径即标识），再更新 INDEX 与 _map。
 6. **定义 API 契约**：`bash scripts/new-contract.sh <endpoint-name> [tech-dir]`；统一在 _shared/contracts/，创建 YAML（路径即标识），再更新 INDEX 与 _map。
-7. **通用模型管理**：_shared/ 下被多领域引用的模型，用 $ref 引用。
+7. **通用模型管理**：`_shared/` 下被多领域引用的模型，用 `$ref` 引用。
 8. **动态拆解**：按分析结果执行拆分方式（按模块拆方案/拆调研/拆决策/按子领域/平级化）。
 9. **归档方案**：移入 _archive/，更新 INDEX 与 _map。
 
@@ -167,11 +167,11 @@ document_scope:
 
 | 维度 | 指标 | 阈值 | 拆分方式 |
 |------|------|------|---------|
-| 单文件长度 | solution.md | >500行（强制） | 按模块拆为多个 solution 或子领域 |
-| 单文件长度 | research.md | >800行（强制） | 按候选方案拆为多个 research |
-| 单文件长度 | decision.md | >500行（强制） | 按决策主题拆为子领域 decision |
+| 单文件长度 | solution.md | >500行（强制） | 按模块拆为多个方案或子领域 |
+| 单文件长度 | research.md | >800行（强制） | 按候选方案拆为多个调研文档 |
+| 单文件长度 | decision.md | >500行（强制） | 按决策主题拆为子领域决策记录 |
 | 单文件长度 | INDEX.md | >150行（强制） | 按领域分二级 INDEX |
-| 单文件长度 | model/contract YAML | >200行 | 拆分为多个模型/契约 |
+| 单文件长度 | 模型/契约 YAML | >200行 | 拆分为多个模型/契约 |
 | 层级深度 | 嵌套层数 | >3层 | 平级化：将深层子领域提升 |
 | 领域规模 | 单领域方案数 | >6个 | 按子领域分组 |
 | _shared 规模 | models/ 文件数 | >15个 | 提示按领域整理（保持扁平） |
@@ -199,5 +199,5 @@ document_scope:
 
 - INDEX 全局分析（步骤与示例）：[references/index-analysis.md](references/index-analysis.md)
 - 九类操作详细步骤：[references/operations.md](references/operations.md)
-- YAML Schema 参考：[references/schemas.md](references/schemas.md)
+- YAML 结构规范参考：[references/schemas.md](references/schemas.md)
 - 脚本：初始化 [scripts/init-tech.sh](scripts/init-tech.sh)、新建领域 [scripts/new-domain.sh](scripts/new-domain.sh)、新建方案 [scripts/new-solution.sh](scripts/new-solution.sh)、新建模型 [scripts/new-model.sh](scripts/new-model.sh)、新建契约 [scripts/new-contract.sh](scripts/new-contract.sh)；模板文件在 assets/

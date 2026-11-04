@@ -4,7 +4,7 @@
   "kind": "result_fact_source",
   "runtime_role": ["fact_source_maintenance"],
   "binding_targets": ["agent"],
-  "summary": "Maintains stable technical solutions, architecture boundaries, data models, and API contracts.",
+  "summary": "维护稳定的技术方案、架构边界、数据模型和 API 契约。",
   "input_facts": [
     "relevant_technical_facts",
     "implementation_evidence",
@@ -26,7 +26,7 @@
     "release_authorization"
   ],
   "runtime_notes": [
-    "The Agent invokes managed-case mode only when the current dynamic gap needs technical facts; the skill returns an evidence-backed fact_result and standalone mode remains available.",
-    "Use only for stable technical facts; keep unresolved tradeoffs in the active Case and never claim Case resolution."
+    "智能体仅在当前动态缺口需要技术事实时调用托管案例（`managed-case`）模式；技能返回有证据支持的 `fact_result`，独立（`standalone`）模式仍可使用。",
+    "仅用于稳定技术事实；未解决的权衡保留在活跃 `Case` 中，绝不声称 `Case` 已解决。"
   ]
 }
