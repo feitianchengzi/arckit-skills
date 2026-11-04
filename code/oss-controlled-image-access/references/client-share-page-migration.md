@@ -1,6 +1,6 @@
 # 客户端和分享页迁移
 
-本文件在当前仓库包含 `client-repo`、`share-page-repo`，或服务端改造完成后需要交接客户端时读取。目标是让客户端只消费稳定图片网关 URL，不理解 OSS、不拼公开 OSS/CDN base URL、不缓存短时签名 URL。
+本文件在当前仓库包含 `client-repo`、`share-page-repo`，或服务端改造完成后需要交接客户端时读取。目标是让客户端只消费稳定图片网关 URL，不理解 OSS、不拼接公开 OSS/CDN 基础 URL、不缓存短时签名 URL。
 
 ## 迁移目标
 
@@ -13,7 +13,7 @@
 
 - OSS Bucket 裸域名。
 - OSS 签名 URL 中的 `Expires`、`Signature`、`OSSAccessKeyId`、`security-token`。
-- 本地构建变量中的公开 OSS/CDN base URL。
+- 本地构建变量中的公开 OSS/CDN 基础 URL。
 
 ## 代码搜索入口
 
@@ -44,20 +44,20 @@ cache
 
 还要检查：
 
-- API service 层是否把 object key 拼成公开 OSS/CDN URL。
+- API 服务层是否把对象键拼成公开 OSS/CDN URL。
 - 图片组件是否直接消费业务接口 URL。
 - 列表、详情、搜索、收藏、用户头像、后台上传预览是否共用同一套 URL 归一化函数。
 - 分享页、SSR 模板、OpenGraph 元数据是否使用稳定网关 URL。
-- 构建配置和 `.env.example` 是否仍要求前端配置 OSS 公网 base URL。
+- 构建配置和 `.env.example` 是否仍要求前端配置 OSS 公网基础 URL。
 
 ## Web 客户端改造
 
 推荐规则：
 
 - 业务接口已经返回 `http/https` 时，前端直接使用，不再改写。
-- 业务接口仍返回 object key 时，优先推动服务端修正；短期必须兼容时，用 `ASSET_GATEWAY_BASE_URL` 这类网关 base，而不是 OSS 公网 base。
+- 业务接口仍返回对象键时，优先推动服务端修正；短期必须兼容时，用 `ASSET_GATEWAY_BASE_URL` 这类网关基础 URL，而不是 OSS 公网基础 URL。
 - 前端 URL 工具函数只做本地上传路径、空值和历史兼容处理，不生成 OSS 签名，不拼 Bucket 裸域名。
-- `<img>`、CSS background、预加载标签、图片查看器和上传预览都使用同一套 URL 解析规则。
+- `<img>`、CSS 背景、预加载标签、图片查看器和上传预览都使用同一套 URL 解析规则。
 - 不把 302 后的 OSS 签名 URL 写入状态管理、localStorage、IndexedDB、持久缓存或业务数据库。
 
 反例：
@@ -77,7 +77,7 @@ return gatewayBase ? `${gatewayBase.replace(/\/+$/, '')}/${text.replace(/^\/+/, 
 
 如果服务端已经保证所有业务图片字段都是完整稳定网关 URL，前端应进一步简化为“完整 URL 直接用，非 URL 只作为历史兼容或报错观察”。
 
-## Native、小程序和特殊图片库
+## 原生客户端、小程序和特殊图片库
 
 必须实测：
 
@@ -120,7 +120,7 @@ SSR/SSG 检查点：
 建议错误处理：
 
 - `403` 或 OSS `SignatureDoesNotMatch`：清除短时 URL 缓存，重新请求稳定网关 URL。
-- `404`：确认 object key 是否真实存在，或业务字段是否仍是旧 URL。
+- `404`：确认对象键是否真实存在，或业务字段是否仍是旧 URL。
 - `502`：先排查入口网关到后端，不先改客户端。
 
 ## 构建和环境变量
@@ -131,13 +131,13 @@ SSR/SSG 检查点：
 - `NEXT_PUBLIC_OSS_PUBLIC_BASE_URL`
 - `OSS_PUBLIC_BASE_URL` 在前端包中的使用
 
-如仍需要兼容 object key，可改为网关 base：
+如仍需要兼容对象键，可改为网关基础 URL：
 
 ```env
 VITE_ASSET_GATEWAY_BASE_URL=https://api.example.com/anime-calendar/v1/public/assets
 ```
 
-但推荐最终状态是：前端无需知道图片网关 base，所有业务接口直接返回完整稳定 URL。
+但推荐最终状态是：前端无需知道图片网关基础 URL，所有业务接口直接返回完整稳定 URL。
 
 ## 最小验收
 
@@ -146,11 +146,11 @@ VITE_ASSET_GATEWAY_BASE_URL=https://api.example.com/anime-calendar/v1/public/ass
 - 业务接口返回图片字段是稳定网关 URL，或客户端历史兼容明确可控。
 - 前端构建产物不包含 OSS Bucket 裸域名和 AccessKey 字样。
 - 列表页、详情页、头像、上传预览、分享页均能显示图片。
-- 浏览器 Network 中首次请求是稳定网关 URL，随后可以看到 302 到 OSS 签名 URL。
+- 浏览器网络面板中首次请求是稳定网关 URL，随后可以看到 302 到 OSS 签名 URL。
 - 刷新页面后仍请求稳定网关 URL，而不是复用旧签名 URL。
 - Bucket 改私有后，裸 OSS URL 失败，客户端页面仍显示图片。
 
-## 跨仓客户端 handoff
+## 跨仓客户端交接
 
 当前仓库不能改客户端时，输出：
 
@@ -163,13 +163,13 @@ client_migration_handoff:
   stable_gateway_base: ""
   must_remove_or_replace:
     - "VITE_OSS_PUBLIC_BASE_URL"
-    - "client-side OSS/CDN base URL concatenation"
-    - "persistent cache of signed OSS URL"
+    - "客户端 OSS/CDN 基础 URL 拼接"
+    - "OSS 签名 URL 的持久缓存"
   must_verify:
-    - "image component follows 302"
-    - "list/detail/avatar/share pages display images"
-    - "browser or app refresh still uses stable gateway URL"
-    - "private Bucket blocks naked OSS URL but gateway URL still works"
+    - "图片组件跟随 302"
+    - "列表、详情、头像和分享页显示图片"
+    - "浏览器或应用刷新后仍使用稳定网关 URL"
+    - "私有 Bucket 阻止 OSS 裸 URL 访问，网关 URL 仍然可用"
   special_clients:
-    - "Native、小程序、SSR、Service Worker 或图片代理如存在，需要单独实测"
+    - "原生客户端、小程序、SSR、Service Worker 或图片代理如存在，需要单独实测"
 ```

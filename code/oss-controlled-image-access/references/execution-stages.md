@@ -27,16 +27,16 @@ redirectCacheControl: no-store
 
 迁移期策略：
 
-- 相对路径或 object key：转成图片网关 URL。
+- 相对路径或对象键：转成图片网关 URL。
 - 第三方 `http/https` 图片：可以先原样返回，后续清洗。
-- 已是 OSS 公开 URL：优先规划迁移为 object key；短期不确定时先不要破坏现有展示。
+- 已是 OSS 公开 URL：优先规划迁移为对象键；短期不确定时先不要破坏现有展示。
 
 ## 服务端阶段
 
 目标：
 
 ```text
-object key -> 稳定网关 URL -> OSS 短时签名 URL
+对象键 -> 稳定网关 URL -> OSS 短时签名 URL
 ```
 
 步骤：
@@ -44,7 +44,7 @@ object key -> 稳定网关 URL -> OSS 短时签名 URL
 1. 增加 OSS 配置读取。
 2. 增加 OSS SDK 或签名服务。
 3. 增加图片网关路由。
-4. 增加 object key 白名单和路径安全校验。
+4. 增加对象键白名单和路径安全校验。
 5. 修改业务接口的图片 URL 生成逻辑。
 6. 添加最小测试。
 
@@ -77,9 +77,9 @@ OSS_ACCESS_KEY_SECRET=...
 
 步骤：
 
-1. 找到 API service、图片 URL 归一化函数、图片组件、缓存、分享页和 `og:image` 入口。
-2. 确认业务接口返回的图片字段是稳定网关 URL，或有明确 object key 兼容策略。
-3. 删除或替换自行拼 OSS/CDN base URL 的逻辑；前端不得再依赖 `VITE_OSS_PUBLIC_BASE_URL` 这类公开 OSS base。
+1. 找到 API 服务、图片 URL 归一化函数、图片组件、缓存、分享页和 `og:image` 入口。
+2. 确认业务接口返回的图片字段是稳定网关 URL，或有明确的对象键兼容策略。
+3. 删除或替换自行拼接 OSS/CDN 基础 URL 的逻辑；前端不得再依赖 `VITE_OSS_PUBLIC_BASE_URL` 这类公开 OSS 基础 URL。
 4. 确认图片加载支持 HTTP 302，且不会把 302 后的 OSS 签名 URL 持久缓存。
 5. 失败时重试稳定网关 URL 或刷新业务数据。
 6. 分享出去的是业务页面 URL，不是 OSS 签名 URL；分享元数据优先使用稳定网关 URL。
@@ -95,8 +95,8 @@ OSS_ACCESS_KEY_SECRET=...
 1. 补环境变量模板，并标注固定值、默认值和必须替换值。
 2. 判断部署形态：源码构建、镜像包、CI/CD 或托管平台。
 3. 判断公网入口拓扑：域名解析、入口机、反向代理/网关、后端地址。
-4. 把 AccessKey 放到 secret 管理，或把 ECS RAM 角色绑定到实例。
-5. 确认日志不会打印完整签名 URL query。
+4. 把 AccessKey 放到密钥管理系统，或把 ECS RAM 角色绑定到实例。
+5. 确认日志不会打印完整签名 URL 查询参数。
 6. 打开 OSS 访问日志、云监控或费用告警。
 7. 把 Bucket 私有化作为最终发布门禁。
 
@@ -107,7 +107,7 @@ OSS_ACCESS_KEY_SECRET=...
 - 后端本机网关 URL 能返回 `302` 签名 URL。
 - 入口机能访问后端服务。
 - 公网域名网关 URL 能显示图片。
-- 客户端/分享页能显示图片，且 Network 或客户端日志显示入口是稳定网关 URL。
+- 客户端/分享页能显示图片，且浏览器网络面板或客户端日志显示入口是稳定网关 URL。
 - 服务端能生成 OSS 签名 URL。
 - 部署环境已有 OSS 配置和凭证模式。
 - 有回滚方案。
@@ -121,7 +121,7 @@ OSS_ACCESS_KEY_SECRET=...
 
 ## 后续 CDN 升级
 
-只有 OSS-only 网关跑通后，或用户明确要求 CDN 时才做。
+只有仅使用 OSS 的网关跑通后，或用户明确要求 CDN 时才做。
 
 升级时保持客户端契约不变：
 

@@ -29,7 +29,7 @@ docker compose --env-file .env config
 
 - 服务器目录只有 `docker-compose.yml`、`.env`、`*.tar.gz`、备份文件等。
 - 本地或 CI 构建镜像，上传后 `docker load`。
-- compose 应使用 `image:`，或部署命令必须带 `--no-build`。
+- Docker Compose 配置应使用 `image:`，或部署命令必须带 `--no-build`。
 
 常见错误：
 
@@ -44,7 +44,7 @@ docker load -i core-service-images.tar.gz
 docker compose --env-file .env up -d --no-build core-service
 ```
 
-如果 compose 仍有 `build:`，服务器又没有源码，应改用 `image:` 或使用项目部署脚本重新上传正确 compose。
+如果 Docker Compose 配置仍有 `build:`，服务器又没有源码，应改用 `image:` 或使用项目部署脚本重新上传正确配置。
 
 ### 容器名冲突
 
@@ -98,7 +98,7 @@ docker ps --format 'table {{.Names}}\t{{.Image}}\t{{.Ports}}'
 ps -ef | grep -Ei 'nginx|openresty|caddy|traefik|apisix|kong|envoy' | grep -v grep
 ```
 
-### nginx / OpenResty
+### nginx / OpenResty 网关
 
 ```bash
 nginx -T | grep -n "api.example.com\|anime-calendar\|proxy_pass" -C 5
@@ -117,9 +117,9 @@ location /anime-calendar/ {
 }
 ```
 
-### Caddy
+### Caddy 网关
 
-先判断 Caddyfile 是容器内路径还是宿主机 bind mount：
+先判断 Caddyfile 是容器内路径还是宿主机绑定挂载：
 
 ```bash
 docker inspect {caddy-container} --format '{{json .Mounts}}'
@@ -127,7 +127,7 @@ docker inspect {caddy-container} --format '{{ index .Config.Labels "com.docker.c
 docker exec {caddy-container} cat /etc/caddy/Caddyfile
 ```
 
-文件级 bind mount 下，如果用编辑器替换了宿主机文件 inode，容器可能仍读旧文件。修改后如果 `caddy adapt` 看不到新内容，直接重启容器：
+文件级绑定挂载下，如果用编辑器替换了宿主机文件 inode，容器可能仍读旧文件。修改后如果 `caddy adapt` 看不到新内容，直接重启容器：
 
 ```bash
 docker restart {caddy-container}
@@ -147,7 +147,7 @@ api.example.com {
 }
 ```
 
-使用 `handle`，不要用 `handle_path`，因为 core-service 通常需要收到完整 `/anime-calendar/...` 路径。
+使用 `handle`，不要用 `handle_path`，因为 `core-service` 通常需要收到完整 `/anime-calendar/...` 路径。
 
 验证：
 
@@ -181,7 +181,7 @@ grep -R "anime-calendar\|api.example.com\|proxy\|route\|upstream" -n /opt /etc /
 entry gateway -> core-service private-ip:9000
 ```
 
-如果临时走公网 IP，安全组只放行入口机公网 IP `/32` 到 core-service 的 TCP 9000。
+如果临时走公网 IP，安全组只放行入口机公网 IP `/32` 到 `core-service` 的 TCP 9000。
 
 在入口机验证：
 
@@ -253,5 +253,5 @@ curl -x "" -i "URL"
 - `502` 且 `server: Caddy/nginx`：入口网关命中了路由，但连不上后端。
 - 后端本机 `302`，公网 `404`：域名入口未转发到新路由。
 - 公网仍有旧 CORS 头：请求可能命中旧 API Gateway，不是新 Caddy/nginx 规则。
-- `SignatureDoesNotMatch`：签名串、STS token、endpoint、bucket、object key 或签名方法错误，先读 `credential-modes.md`。
-- `AccessDenied`：RAM 权限、Bucket ACL、Bucket Policy 或 object key 权限问题。
+- `SignatureDoesNotMatch`：签名串、STS 令牌、端点、Bucket、对象键或签名方法错误，先读 `credential-modes.md`。
+- `AccessDenied`：RAM 权限、Bucket ACL、Bucket Policy 或对象键权限问题。
