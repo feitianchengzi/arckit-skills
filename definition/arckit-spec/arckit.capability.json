@@ -4,7 +4,7 @@
   "kind": "result_fact_source",
   "runtime_role": ["fact_source_maintenance"],
   "binding_targets": ["agent"],
-  "summary": "Maintains stable product behavior, rules, feature specs, and acceptance criteria.",
+  "summary": "维护稳定的产品行为、规则、功能规格和验收标准。",
   "input_facts": [
     "relevant_product_facts",
     "accepted_decision",
@@ -26,7 +26,7 @@
     "visual_or_technical_fact_ownership"
   ],
   "runtime_notes": [
-    "The Agent invokes managed-case mode only when the current dynamic gap needs product facts; the skill returns an evidence-backed fact_result and standalone mode remains available.",
-    "Only use for stable product expectation facts; keep unknowns in the active Case and never claim Case resolution."
+    "智能体仅在当前动态缺口需要产品事实时调用托管案例（`managed-case`）模式；技能返回有证据支持的 `fact_result`，独立（`standalone`）模式仍可使用。",
+    "仅用于稳定的产品预期事实；未知事项保留在活跃 `Case` 中，绝不声称 `Case` 已解决。"
   ]
 }

@@ -1,24 +1,24 @@
 ---
 name: arckit-spec
-description: "维护 arckit/spec/ 下的产品功能规格、行为规则、验收口径和模块化规格索引。适用于需要查询、创建、更新或审计稳定产品预期事实的场景。输出变更涉及的 spec 路径和一句话摘要。"
+description: "维护 arckit/spec/ 下的产品功能规格、行为规则、验收口径和模块化规格索引。适用于需要查询、创建、更新或审计稳定产品预期事实的场景。输出变更涉及的产品规格路径和一句话摘要。"
 ---
 
-# ArcKit Spec
+# Arckit 产品规格
 
-管理 `arckit/spec/` 的功能规格，遵循「INDEX 驱动、动态拆解、Progressive Disclosure」原则。
+管理 `arckit/spec/` 的功能规格，遵循「索引驱动、动态拆解、渐进式披露」原则。
 
-## 过程 Handoff 接收规则
+## 过程交接接收规则
 
-本 skill 是结果型 skill，`arckit/spec/` 仍是产品功能事实的 source of truth。可以接收用户、Controller worker report、稳定事实源或外部 adapter 提供的明确材料，但接收不等于自动写入。
+本技能是结果型技能，`arckit/spec/` 仍是产品功能事实的权威来源。可以接收用户、控制器工作单元报告、稳定事实源或外部适配器提供的明确材料，但接收不等于自动写入。
 
-- 先把 handoff 当作候选输入，按下方 INDEX 全局分析和域归属判定决定并入、新建、拆分、归档或暂不采纳。
+- 先把交接材料当作候选输入，按下方索引全局分析和域归属判定决定并入、新建、拆分、归档或暂不采纳。
 - 只把稳定行为、规则、验收口径和已确认边界写入主文档。
-- 调研过程、候选方案、未验证推断、执行计划和角色分工不得写入 spec 主线。
-- 输入中的来源和风险可转为 `source_basis`；开放问题保留在 active case 的 `open_questions` 或 `pending_handoffs`，需要人类判断时标记 `human_decision_required`。
+- 调研过程、候选方案、未验证推断、执行计划和角色分工不得写入产品规格主线。
+- 输入中的来源和风险可转为 `source_basis`；开放问题保留在活跃 `Case` 的 `open_questions` 或 `pending_handoffs`，需要人类判断时标记 `human_decision_required`。
 
-## Case State 驱动模式
+## 案例状态驱动模式
 
-Agent 判断当前 dynamic gap 需要查询或维护产品事实时，向本 skill 提供 `case_gap`。先读取 [`../_arckit_shared/case-gap-contract.md`](../_arckit_shared/case-gap-contract.md)，再基于完整上下文进入 managed-case 模式。本 skill 只维护稳定产品事实并返回 `fact_result`，不写 Case/Project State、不规定工作顺序、不决定 Case 完成。没有 `case_gap` 时使用 standalone 模式。
+智能体判断当前动态缺口需要查询或维护产品事实时，向本技能提供 `case_gap`。先读取[案例缺口契约](../_arckit_shared/case-gap-contract.md)，再基于完整上下文进入托管案例（`managed-case`）模式。本技能只维护稳定产品事实并返回 `fact_result`，不写 `Case State` / `Project State`、不规定工作顺序、不决定 `Case` 完成。没有 `case_gap` 时使用独立（`standalone`）模式。
 
 ## 核心结构
 
@@ -41,7 +41,7 @@ spec/
 🟢 已实现 | 🟡 开发中 | ⚪ 计划中 | 🔴 已废弃
 
 - user-management/ 用户管理：账号认证、权限控制与组织关系。🟢
-  - authentication.md 用户认证：登录登出、会话管理、Token刷新。🟢 (325行)
+  - authentication.md 用户认证：登录登出、会话管理、令牌刷新。🟢 (325行)
   - authorization.md 权限控制：角色分配、资源权限校验、策略引擎。🟢 (480行)
   - account/ 账户管理：个人资料、偏好设置、通知配置。🟡
     - profile.md 个人资料：查看编辑信息、头像上传、隐私设置。🟡 (210行)
@@ -59,7 +59,7 @@ spec/
 
 **语体**：陈述式、现在时，写「该功能支持 X」「在 A 状态下系统响应 B」。禁止改版叙事（「本次将 X 改为 Y」）、落地建议（「可先简化」「早期阶段暂时」）、过程叙事。
 
-**禁止混入**：成本/排期/版本迭代计划；工程实施建议（简化方案、临时绕过）；任何代码（spec 文档不出现代码，伪代码也应极其克制）。
+**禁止混入**：成本/排期/版本迭代计划；工程实施建议（简化方案、临时绕过）；任何代码（产品规格文档不出现代码，伪代码也应极其克制）。
 
 **历史内容处置**：① 已过时的描述直接删除；② 有保留价值（如弃用说明）的整段移入文档末尾 `## 历史对照` 或 `## 弃用说明` 附录块，不与主线穿插；③ 附录块内仍用陈述式。
 
@@ -76,15 +76,15 @@ spec/
 
 **若判定为查询**：
 1. 只读 `arckit/spec/INDEX.md`（必要时按需读少量相关文档）。
-2. 输出 `document_scope` 后**结束**，不执行任何写操作。输出格式见下方「最终输出：document_scope」之 `scope_kind: query`。
+2. 输出 `document_scope` 后**结束**，不执行任何写操作。输出格式见下方「最终输出：`document_scope`」之 `scope_kind: query`。
 
 **若判定为变更**：继续执行「INDEX 全局分析」及后续步骤；执行结束后必须输出 `document_scope`，格式见 `scope_kind: change`。
 
 ---
 
-### 最终输出：document_scope（每次调用结束前必须输出）
+### 最终输出：`document_scope`（每次调用结束前必须输出）
 
-本 Skill 必须输出 `document_scope`；同时按 Case Gap Contract 输出 `fact_result`。managed-case 模式的结果供当前 Agent 汇总为 transition 证据，standalone 模式只描述本次事实影响。
+本技能必须输出 `document_scope`；同时按案例缺口契约输出 `fact_result`。托管案例模式的结果供当前智能体汇总为 `transition` 证据，独立模式只描述本次事实影响。
 
 **查询结束时**（只读，无写操作）：
 ```yaml
@@ -106,7 +106,7 @@ document_scope:
       summary: 新增个人资料功能规格，编辑与隐私设置
   updated:
     - path: user-management/authentication.md
-      summary: 补充多端登录与 Token 刷新规则
+      summary: 补充多端登录与令牌刷新规则
   deleted:
     - path: legacy/legacy-auth.md
       summary: 归档至 _archive，已由新认证模块替代
@@ -136,7 +136,7 @@ document_scope:
 
 ---
 
-### 操作入口（详细步骤见 reference）
+### 操作入口（详细步骤见参考文档）
 
 1. **新建功能模块**：`bash scripts/new-module.sh <module-name> [spec-dir]`；创建目录，再更新 INDEX.md。
 2. **新建功能规格**：`bash scripts/new-feature.sh <module-name> <feature-name> [spec-dir]`；创建 feature.md（路径即标识），再更新 INDEX 与 _map。
@@ -153,7 +153,7 @@ document_scope:
 | 单文件长度 | feature.md | >500行（强制）、>450行（警告） | 按子功能/场景拆为子模块 |
 | 单文件长度 | INDEX.md | >150行（强制）、>120行（警告） | 按模块分二级 INDEX |
 | 层级深度 | 嵌套层数 | >4层 | 平级化：将深层子模块提升 |
-| 模块规模 | 单模块 feature 数 | >8个 | 按业务相关性分 2-3 个子模块 |
+| 模块规模 | 单模块功能数 | >8个 | 按业务相关性分 2-3 个子模块 |
 
 ## 必须更新的文件
 

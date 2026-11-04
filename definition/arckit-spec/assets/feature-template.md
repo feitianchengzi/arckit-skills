@@ -6,11 +6,11 @@
 - 状态: ⚪ 计划中
 - 优先级: P0
 - 负责人: @username
-- 依赖功能: （待补充，填 spec 下相对路径）
-- 关联模型: （待补充，填 tech/_shared/models 或领域下路径）
+- 依赖功能: （待补充，填 `spec` 下相对路径）
+- 关联模型: （待补充，填 `tech/_shared/models` 或领域下路径）
 - 关联API: （待补充，填 tech/_shared/contracts 下路径）
 - 关联设计: （待补充，填 interaction/ 与 visual/ 下路径，如 interaction/auth-flow/login/default.html、visual/_library/design-tokens.yaml）
-- 关联技术: （待补充，填 tech 下路径）
+- 关联技术: （待补充，填 `tech` 下路径）
 - 实施状态: 模型⚪ | API⚪ | 设计⚪ | 技术⚪ | 开发⚪
 - 变更历史:
   - {{DATE}}: 初始创建
@@ -25,9 +25,9 @@
 **角色:** （用户角色）
 
 **场景:**
-- **Given** （前置条件）
-- **When** （用户操作）
-- **Then** （期望结果）
+- **`Given`** （前置条件）
+- **`When`** （用户操作）
+- **`Then`** （期望结果）
 
 **验收条件:**
 - [ ] （具体可测试的条件1）

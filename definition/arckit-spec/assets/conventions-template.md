@@ -1,8 +1,8 @@
-# Spec 文档编写规范
+# 产品规格文档编写规范
 
 ## 文件命名
-- 目录: kebab-case（如 `user-management/`）
-- 文件: kebab-case（如 `password-reset.md`）
+- 目录: 短横线命名（`kebab-case`，如 `user-management/`）
+- 文件: 短横线命名（`kebab-case`，如 `password-reset.md`）
 - 特殊文件: 大写（`INDEX.md`, `GLOSSARY.md`, `CONVENTIONS.md`）
 
 ## 文件大小限制
@@ -24,7 +24,7 @@
 - P2: 可以实现（增强功能）
 
 ## 用户场景格式
-使用 Given/When/Then 结构，每个场景附带验收条件。
+使用 `Given` / `When` / `Then`（前置条件/用户操作/期望结果）结构，每个场景附带验收条件。
 
 ## 跨文档引用
 - 使用相对路径链接

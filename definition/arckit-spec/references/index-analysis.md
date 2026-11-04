@@ -27,7 +27,7 @@
     - user-management/authentication/
       - login.md 登录功能：表单校验、多因素认证、社交登录。(180行)
       - logout.md 登出功能：会话清理、全局登出、设备管理。(120行)
-      - session.md 会话管理：Token刷新、过期检测、并发控制。(185行)
+      - session.md 会话管理：令牌刷新、过期检测、并发控制。(185行)
   连带更新:
     - INDEX.md: 原条目改为子模块树形
     - _map/feature-matrix.md、RELATIONS.md: 原路径废弃，迁移到新路径
