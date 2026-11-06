@@ -138,8 +138,8 @@ document_scope:
 
 ### 操作入口（详细步骤见参考文档）
 
-1. **新建功能模块**：`bash scripts/new-module.sh <module-name> [spec-dir]`；创建目录，再更新 INDEX.md。
-2. **新建功能规格**：`bash scripts/new-feature.sh <module-name> <feature-name> [spec-dir]`；创建 feature.md（路径即标识），再更新 INDEX 与 _map。
+1. **新建功能模块**：创建目录 `arckit/spec/<module-name>/`，再更新 INDEX.md。可选便捷脚本：`bash scripts/new-module.sh <module-name> [spec-dir]`；无 bash 环境时直接建目录。
+2. **新建功能规格**：按 `assets/feature-template.md` 创建 feature.md（路径即标识），再更新 INDEX 与 _map。可选便捷脚本：`bash scripts/new-feature.sh <module-name> <feature-name> [spec-dir]`；不可用时按模板直接创建。
 3. **更新功能**：先看分析结果，需拆分则先拆再改；否则直接改 feature.md，更新行数与 _map。
 4. **动态拆解**：按分析结果执行拆分方式（按子功能/按模块分组/平级化）。
 5. **归档功能**：移入 _archive/，更新 INDEX 与 _map。
@@ -174,4 +174,5 @@ document_scope:
 
 - INDEX 全局分析（步骤与示例）：[references/index-analysis.md](references/index-analysis.md)
 - 五类操作详细步骤：[references/operations.md](references/operations.md)
-- 脚本：初始化 [scripts/init-spec.sh](scripts/init-spec.sh)、新建模块 [scripts/new-module.sh](scripts/new-module.sh)、新建功能 [scripts/new-feature.sh](scripts/new-feature.sh)；模板文件在 assets/
+- 模板（事实源）：`assets/`；初始化和新建时直接按模板创建文件。
+- 可选便捷脚本（依赖 bash，不可用时跳过）：[scripts/init-spec.sh](scripts/init-spec.sh)、[scripts/new-module.sh](scripts/new-module.sh)、[scripts/new-feature.sh](scripts/new-feature.sh)

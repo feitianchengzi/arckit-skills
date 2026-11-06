@@ -6,7 +6,7 @@
 
 ## 1. 新建技术领域
 
-1. 创建目录 `arckit/tech/{tech-domain}/`（脚本：new-domain.sh）
+1. 创建目录 `arckit/tech/{tech-domain}/`（可选脚本：new-domain.sh；无脚本时直接建目录）
 2. 更新 INDEX.md 添加领域条目（含一句描述）；依赖关系在 _map/RELATIONS.md
 
 ---
@@ -14,7 +14,7 @@
 ## 2. 技术调研（基于分析结果）
 
 1. 若现有 research.md >700行 需先拆分 → 执行「动态拆解」（见第 8 节）
-2. 创建 arckit/tech/{domain}/research.md（模板：背景、候选方案、评估、结论）
+2. 按 `assets/research-template.md` 创建 arckit/tech/{domain}/research.md（模板：背景、候选方案、评估、结论）
 3. 更新 INDEX.md（添加条目+初始行数 如 `(150行)`）
 4. 在 arckit/_map/decision-log.md 记录调研背景
 
@@ -23,7 +23,7 @@
 ## 3. 方案设计（基于分析结果）
 
 1. 若现有 solution.md >450行 需先拆分 → 执行「动态拆解」（见第 8 节）
-2. 创建 arckit/tech/{domain}/solution.md（路径即标识；模板：元信息+方案概述+架构+实现+已知局限）
+2. 按 `assets/solution-template.md` 创建 arckit/tech/{domain}/solution.md（路径即标识；模板：元信息+方案概述+架构+实现+已知局限）
 3. 更新 INDEX.md（添加条目+初始行数 如 `(280行)`）
 4. 更新 arckit/_map/RELATIONS.md（功能→技术映射）
 5. 更新 arckit/_map/feature-matrix.md（技术状态列）

@@ -37,7 +37,7 @@ description: "查询、创建、更新或审计 arckit/visual/ 的视觉策略�
 
 ### 4. 维护与整合
 
-按[操作步骤](references/operations.md) 更新策略、设计变量、组件、主题与预览。首次初始化可用 `scripts/init-design-system.sh`，骨架和模板默认值不代表已获批准。
+按[操作步骤](references/operations.md) 更新策略、设计变量、组件、主题与预览。首次初始化按 `assets/` 模板创建；可选便捷脚本 `scripts/init-design-system.sh`（依赖 bash，不可用时按模板直接创建）。骨架和模板默认值不代表已获批准。
 采纳支持整案或分项组合，核对当前基线后形成完整规范，不把候选拼装判断留给实施者。用户已授权的选择直接落地，尚未决定的取舍先交付比较材料。
 
 ### 5. 验证与消费者同步

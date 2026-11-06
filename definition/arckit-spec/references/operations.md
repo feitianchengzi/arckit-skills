@@ -6,7 +6,7 @@
 
 ## 1. 新建功能模块
 
-1. 创建目录 `arckit/spec/{module-name}/`（脚本：new-module.sh）
+1. 创建目录 `arckit/spec/{module-name}/`（可选脚本：new-module.sh；无脚本时直接建目录）
 2. 更新 INDEX.md 添加模块条目（含一句描述）；依赖关系在 _map/RELATIONS.md
 
 ---
@@ -14,7 +14,7 @@
 ## 2. 新建功能规格（基于分析结果）
 
 1. 确定所属模块（若不存在 → 创建目录）
-2. 创建 feature.md（路径即标识；模板：元信息+功能描述+用户场景+需求+成功标准）
+2. 按 `assets/feature-template.md` 创建 feature.md（路径即标识；模板：元信息+功能描述+用户场景+需求+成功标准）
 3. 更新 INDEX.md（添加条目+标注初始行数 如 `(50行)`）
 4. 更新 _map/feature-matrix.md、RELATIONS.md
 

@@ -6,14 +6,14 @@
 
 ## 1. 初始化设计系统（项目首次）
 
-**脚本**：`bash scripts/init-design-system.sh "<项目名>" [visual-dir]`，默认 `visual-dir = arckit/visual`。
+**默认方式**：按 `assets/` 下的 `brief-template.md`、`design-tokens-template.yaml`、`component-catalog-template.yaml`、`style-preview-template.html`、`index-template.md`、`conventions-template.md` 和 `preview-server.py` 创建 `arckit/visual/` 骨架，并建立 `_library/`、`themes/`、`_archive/`。
 
-脚本完成后根据用户提示自动完成：
+**可选便捷脚本**：`bash scripts/init-design-system.sh "<项目名>" [visual-dir]`（默认 `visual-dir = arckit/visual`，依赖 bash；不可用时按模板直接创建）。脚本完成后根据用户提示自动完成：
 
 1. 编辑 `_library/brief.md` 填写品牌方向与「视觉策略」（品牌气质、信息层级、色彩角色、字体节奏、空间密度、组件性格、状态表达、主题策略）
 2. 根据视觉策略调整 `_library/design-tokens.yaml` 色值、字体、间距、圆角、阴影和动效配置
 3. 根据视觉策略调整 `_library/component-catalog.yaml`，确保组件角色、变体、尺寸、状态和设计变量引用共同投影同一风格源
-4. 运行预览服务器审查视觉效果：
+4. 运行预览服务器审查视觉效果（可选；无 python3 时直接打开 `style-preview.html` 或用任意静态服务器）：
    ```bash
    cd arckit/visual/_library
    python3 preview-server.py

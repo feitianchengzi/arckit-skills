@@ -151,12 +151,12 @@ document_scope:
 
 ### 操作入口（详细步骤见参考文档）
 
-1. **新建技术领域**：`bash scripts/new-domain.sh <domain-name> [tech-dir]`；创建目录，再更新 INDEX.md。
+1. **新建技术领域**：创建目录 `arckit/tech/<domain-name>/`，再更新 INDEX.md。可选便捷脚本：`bash scripts/new-domain.sh <domain-name> [tech-dir]`。
 2. **技术调研**：research.md >700行 需先拆则先拆；用 assets/research-template.md 创建 research.md、更新 INDEX 与 decision-log。
-3. **方案设计**：`bash scripts/new-solution.sh <domain-name> <solution-name> [tech-dir]`；solution.md >450行 需先拆则先拆；创建 solution.md（路径即标识），再更新 INDEX 与 _map。
+3. **方案设计**：solution.md >450行 需先拆则先拆；按 assets/solution-template.md 创建 solution.md（路径即标识），再更新 INDEX 与 _map。可选便捷脚本：`bash scripts/new-solution.sh <domain-name> <solution-name> [tech-dir]`。
 4. **决策记录**：在 `decision.md` 添加决策、更新决策日志、同步方案与索引状态。
-5. **定义数据模型**：`bash scripts/new-model.sh <entity-name> [tech-dir]`；统一在 _shared/models/，创建 YAML（路径即标识），再更新 INDEX 与 _map。
-6. **定义 API 契约**：`bash scripts/new-contract.sh <endpoint-name> [tech-dir]`；统一在 _shared/contracts/，创建 YAML（路径即标识），再更新 INDEX 与 _map。
+5. **定义数据模型**：统一在 _shared/models/，按 assets/model-template.yaml 创建 YAML（路径即标识），再更新 INDEX 与 _map。可选便捷脚本：`bash scripts/new-model.sh <entity-name> [tech-dir]`。
+6. **定义 API 契约**：统一在 _shared/contracts/，按 assets/contract-template.yaml 创建 YAML（路径即标识），再更新 INDEX 与 _map。可选便捷脚本：`bash scripts/new-contract.sh <endpoint-name> [tech-dir]`。
 7. **通用模型管理**：`_shared/` 下被多领域引用的模型，用 `$ref` 引用。
 8. **动态拆解**：按分析结果执行拆分方式（按模块拆方案/拆调研/拆决策/按子领域/平级化）。
 9. **归档方案**：移入 _archive/，更新 INDEX 与 _map。
@@ -200,4 +200,5 @@ document_scope:
 - INDEX 全局分析（步骤与示例）：[references/index-analysis.md](references/index-analysis.md)
 - 九类操作详细步骤：[references/operations.md](references/operations.md)
 - YAML 结构规范参考：[references/schemas.md](references/schemas.md)
-- 脚本：初始化 [scripts/init-tech.sh](scripts/init-tech.sh)、新建领域 [scripts/new-domain.sh](scripts/new-domain.sh)、新建方案 [scripts/new-solution.sh](scripts/new-solution.sh)、新建模型 [scripts/new-model.sh](scripts/new-model.sh)、新建契约 [scripts/new-contract.sh](scripts/new-contract.sh)；模板文件在 assets/
+- 模板（事实源）：`assets/`；初始化和新建时直接按模板创建文件。
+- 可选便捷脚本（依赖 bash，不可用时跳过）：[scripts/init-tech.sh](scripts/init-tech.sh)、[scripts/new-domain.sh](scripts/new-domain.sh)、[scripts/new-solution.sh](scripts/new-solution.sh)、[scripts/new-model.sh](scripts/new-model.sh)、[scripts/new-contract.sh](scripts/new-contract.sh)

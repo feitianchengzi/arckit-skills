@@ -8,6 +8,7 @@
 - 新增或删除技能时，同步更新下游项目中的 `arcforge.skill-project.json` 路径。
 - 技能不声明智能体白名单；智能体适配能力由安装层决定。
 - 多个 Arckit 文档类技能共享 `definition/_arckit_shared/content-spec.md`。
+- `assets/` 下的模板是事实源；`scripts/*.sh` 仅为可选便捷方式，缺少 bash 或 python3 时按模板直接创建，不阻塞维护。
 
 ## 定义类技能
 

@@ -39,7 +39,7 @@ description: "查询、创建、更新或审计 arckit/interaction/ 的交互策
 
 ### 4. 更新原型与说明
 
-按[操作步骤](references/operations.md) 维护完整入口 `default.html`、`interaction.md` 及必要的本地脚本、样式和场景。初始化使用 `scripts/new-page-design.sh`，支持 `iOS` / `iPad` / `macOS` / `Web` / `Desktop`。
+按[操作步骤](references/operations.md) 维护完整入口 `default.html`、`interaction.md` 及必要的本地脚本、样式和场景。初始化按 `assets/` 模板创建骨架，支持 `iOS` / `iPad` / `macOS` / `Web` / `Desktop`；可选便捷脚本 `scripts/new-page-design.sh`（依赖 bash + python3，不可用时按模板直接创建）。
 关键输入、选择、导航、弹层和状态变化可连续操作；异常状态可重复触达。复杂原型拆分代码资源而不把入口降为占位骨架。平台语义有歧义时参考[控件标注映射](references/data-kit-mappings.md)。
 采纳组合方案时形成完整正式稿，不能留下“布局参考 A、行为参考 B”的拼装指令。正式正文遵守 [规格内容规范](../_arckit_shared/content-spec.md)。
 
