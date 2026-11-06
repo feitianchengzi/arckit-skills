@@ -3,7 +3,7 @@ import { readFileSync } from "node:fs";
 import { homedir } from "node:os";
 import { join, sep } from "node:path";
 
-import { defaultSource, loadCatalog, selectShared, selectSkills } from "../lib/catalog.mjs";
+import { defaultSource, loadCatalog, selectKits, selectShared, selectSkills } from "../lib/catalog.mjs";
 import {
   applyInstall,
   applyUninstall,
@@ -42,6 +42,7 @@ const HELP = `Arckit Skills v${VERSION}
   --agent <agents|claude>      目标智能体目录约定，默认 agents
   --only <name[,name]>         只安装指定 skills，可重复
   --domain <name[,name]>       只安装指定能力域，可重复
+  --with-kit                   最小闭环安装时现场生成 arckit/_kit/ 模板目录（默认不生成）
   --source <path>              指定 skill 源目录
   --force                      覆盖非本工具安装的同名目录
   --dry-run                    只显示安装计划，不写入文件
@@ -56,6 +57,8 @@ const HELP = `Arckit Skills v${VERSION}
 示例:
   npx arckit-skills
   npx arckit-skills install --project --flat --only arckit-spec
+  npx arckit-skills install --project --flat --only using-arckit,arckit-development-ledger
+  npx arckit-skills install --project --flat --only using-arckit,arckit-development-ledger --with-kit
   npx arckit-skills list
   npx github:feitianchengzi/arckit-skills
 `;
@@ -152,6 +155,9 @@ function parseArgs(argv) {
       case "--skill":
         args.names.push(...splitList(value()));
         break;
+      case "--with-kit":
+        args.kit = "on";
+        break;
       case "--domain":
         args.domains.push(...splitList(value()));
         break;
@@ -197,7 +203,7 @@ function describeSource(catalog) {
 function banner(catalog) {
   info(`${color.bold("Arckit Skills")} ${color.dim(`v${VERSION}`)}`);
   info(color.dim(`源: ${describeSource(catalog)}`));
-  info(color.dim(`可用: ${catalog.skills.length} 个 skill · ${catalog.shared.length} 个共享目录`));
+  info(color.dim(`可用: ${catalog.skills.length} 个 skill · ${catalog.shared.length} 个共享目录 · ${catalog.kits.length} 个 kit`));
 }
 
 async function chooseAgent(args) {
@@ -291,7 +297,11 @@ function printPlan(plan, { target, layout, scope }) {
   info(table(rows, { head: ["能力域", "数量", "Skills"], maxDescription: 88 }));
 
   const sharedCount = plan.filter((item) => item.kind === "shared").length;
+  const kitItems = plan.filter((item) => item.kind === "kit");
   const embedded = plan.reduce((count, item) => count + (item.embeds?.length ?? 0), 0);
+  if (kitItems.length > 0) {
+    info(`  ${color.dim("Kit")}  ${kitItems.map((item) => `${item.name} → ${item.path}`).join(", ")}`);
+  }
   info(
     color.dim(
       `  共 ${plan.length} 个目录` +
@@ -313,9 +323,23 @@ async function runInstall(args, extraNames = []) {
   const scope = await chooseScope(args, agent);
   const target = args.target ? resolveTarget(args.target) : resolveScopeTarget(scope, { agent });
   const layout = await chooseLayout(args);
+  const resolvedScope = scope ?? inferScope(target);
+  const projectDir = resolvedScope === "personal" ? null : process.cwd();
 
-  const plan = planInstall(catalog, { skills, shared, layout, targetDir: target.dir });
-  printPlan(plan, { target, layout, scope: scope ?? inferScope(target) });
+  const wantsKit = args.kit === "on";
+  if (wantsKit) {
+    const selected = new Set(skills.map((skill) => skill.name));
+    if (!selected.has("using-arckit") || !selected.has("arckit-development-ledger")) {
+      throw new Error("--with-kit 仅用于最小闭环安装：--only using-arckit,arckit-development-ledger");
+    }
+    if (!projectDir) {
+      throw new Error("--with-kit 只能安装到项目，请使用 --project（或项目级 --target）");
+    }
+  }
+  const kits = wantsKit ? selectKits(catalog) : [];
+
+  const plan = planInstall(catalog, { skills, shared, kits, layout, targetDir: target.dir, projectDir });
+  printPlan(plan, { target, layout, scope: resolvedScope });
 
   if (args.dryRun) {
     info(color.dim("\n--dry-run：未写入任何文件。"));
@@ -362,9 +386,10 @@ async function runInstall(args, extraNames = []) {
     targetDir: target.dir,
     catalog,
     layout,
-    scope: scope ?? inferScope(target),
+    scope: resolvedScope,
     agent: args.target ? inferAgent(target) : agent,
     force,
+    projectDir: projectDir ?? target.dir,
   });
 
   info("");
@@ -403,6 +428,13 @@ function runList(args, extraNames = []) {
     skills.map((skill) => [skill.domain, skill.name, skill.description]),
     { head: ["能力域", "Skill", "说明"] },
   ));
+  if (catalog.kits.length > 0) {
+    info("");
+    info(table(
+      catalog.kits.map((kit) => [kit.name, kit.description, "arckit/_kit"]),
+      { head: ["Kit", "说明", "安装位置"] },
+    ));
+  }
 }
 
 async function runUninstall(args, extraNames = []) {
@@ -433,7 +465,9 @@ async function runUninstall(args, extraNames = []) {
     target = resolveScopeTarget(scope, { agent: args.agent });
   }
 
-  const { manifest, items } = planUninstall(target.dir, { names });
+  const resolvedScope = scope ?? inferScope(target);
+  const projectDir = resolvedScope === "personal" ? target.dir : process.cwd();
+  const { manifest, items } = planUninstall(target.dir, { names, projectDir });
   if (!manifest) {
     info(`${color.dim("未找到安装清单:")} ${join(target.dir, MANIFEST_NAME)}`);
     info("该目录不是由 arckit-skills 安装的，未做任何修改。");

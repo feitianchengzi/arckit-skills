@@ -11,6 +11,7 @@ memory/      原始输入与显式按需的未决上下文维护
 engineering/ 技术栈无关的工程诊断
 code/        语言、框架、平台、SDK 与云服务 coding skills
 delivery/    发布、分支与交付触发
+kits/        非技能数据源（只在 `--with-kit` 时现场生成 arckit/_kit/）
 ```
 
 每个 skill 目录都必须包含 `SKILL.md`，目录名与 frontmatter 的 `name` 一致。
@@ -53,6 +54,19 @@ npx arckit-skills list
 npx arckit-skills uninstall --project --only arckit-spec
 ```
 
+最小闭环（2 个技能，可选模板目录）：
+
+```bash
+npx github:feitianchengzi/arckit-skills install --project --flat --agents \
+  --only using-arckit,arckit-development-ledger --yes
+
+# 需要 arckit/_kit/ 模板时再加 --with-kit
+```
+
+默认只装 2 个技能。加 `--with-kit` 时，安装器从 `definition/*/assets`、`_arckit_shared` 和 `kits/source/` 现场生成项目 `arckit/_kit/`；仓库不保存生成结果，也不做漂移检查。
+
+> `arckit-skills` 尚未发布到 npm，`npx arckit-skills` 会返回 404；请使用上面的 `npx github:...` 形式。
+
 常用参数：
 
 | 参数 | 说明 |
@@ -63,6 +77,7 @@ npx arckit-skills uninstall --project --only arckit-spec
 | `--flat` / `--structured`（`--keep`） | 平铺或保持能力域结构 |
 | `--target <alias\|path>` | 直接指定目标目录，覆盖智能体与范围选择 |
 | `--only <name[,name]>` / `--domain <name[,name]>` | 只安装指定 skill 或能力域 |
+| `--with-kit` | 最小闭环安装时现场生成 `arckit/_kit/` 模板目录（默认不生成） |
 | `--source <path>` | 指定 skill 源目录（默认使用包内 skills） |
 | `--force` | 覆盖非本工具安装的同名目录 |
 | `--dry-run` | 只输出安装计划 |

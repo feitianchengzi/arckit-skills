@@ -16,3 +16,4 @@ npx github:feitianchengzi/arckit-skills install --project --flat --agents --yes
 ```
 
 4. 安装后按 `INSTALL.md` 第 5 节校验，并向用户报告实际目标目录与条目数量。
+5. 最小闭环安装（`--only using-arckit,arckit-development-ledger`）默认不生成模板目录；用户明确需要模板时加 `--with-kit`，安装器会在项目 `arckit/_kit/` 现场生成，不写入仓库、不做漂移检查。

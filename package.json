@@ -16,6 +16,7 @@
     "engineering",
     "code",
     "delivery",
+    "kits",
     "README.md",
     "INSTALL.md",
     "AGENTS.md",
@@ -25,7 +26,7 @@
   "scripts": {
     "start": "node bin/arckit-skills.mjs",
     "list": "node bin/arckit-skills.mjs list",
-    "test": "node --test test/catalog.test.mjs test/install.test.mjs test/prompt.test.mjs test/targets.test.mjs test/cli.test.mjs"
+    "test": "node --test test/catalog.test.mjs test/install.test.mjs test/prompt.test.mjs test/targets.test.mjs test/cli.test.mjs test/kit-install.test.mjs"
   },
   "engines": {
     "node": ">=18"

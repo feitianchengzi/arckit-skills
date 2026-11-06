@@ -32,6 +32,8 @@
 | 安装到自定义目录 | 用 `--target <path>` 替换 `--project/--personal` |
 | 技能来自项目内 submodule | 追加 `--source vendor/arckit-skills` |
 | 用户明确要求保留能力域结构 | 把 `--flat` 换成 `--structured` |
+| 只装最小闭环（2 个技能） | 追加 `--only using-arckit,arckit-development-ledger` |
+| 最小闭环 + 模板目录 | 追加 `--only using-arckit,arckit-development-ledger --with-kit` |
 
 约束：
 
@@ -82,14 +84,28 @@ npx github:feitianchengzi/arckit-skills install --project --flat --agents \
 
 能力域：`entry`、`definition`、`memory`、`engineering`、`code`、`delivery`。
 
-### 3.5 自定义目标目录
+### 3.5 最小闭环（2 个技能 + 模板包）
+
+```bash
+npx github:feitianchengzi/arckit-skills install --project --flat --agents \
+  --only using-arckit,arckit-development-ledger --with-kit --yes
+```
+
+`--with-kit` 只用于最小闭环安装，且安装时现场生成 `<repo>/arckit/_kit/`：
+
+- 内容来自 `definition/*/assets`、`definition/_arckit_shared/*.md` 和 `kits/source/`；仓库中不保存生成结果，也不做漂移检查。
+- 不是技能，不参与 agent 发现，也不计入 skill 数量。
+- 不指定 `--with-kit` 时不生成任何 kit 目录。
+- 个人范围（`--personal`）不允许使用 `--with-kit`；模板只属于项目。
+
+### 3.6 自定义目标目录
 
 ```bash
 npx github:feitianchengzi/arckit-skills install \
   --target path/to/agent/skills --flat --yes
 ```
 
-### 3.6 来自项目内 submodule
+### 3.7 来自项目内 submodule
 
 ```bash
 npx github:feitianchengzi/arckit-skills install \
@@ -108,13 +124,14 @@ npx github:feitianchengzi/arckit-skills install \
 - `--flat`：`<target>/<skill-name>/SKILL.md`（推荐，agent 可直接发现）。
 - `--structured`：`<target>/<domain>/<skill-name>/SKILL.md`，保留能力域分组。
 - 平铺布局会把 `definition/_arckit_shared/` 内嵌进同域 skill，并改写相对链接。
+- `definition-kit`（如已选择）：`<project-root>/arckit/_kit/`，与 skill 目标目录分离，随项目提交。
 
 ## 5. 安装后校验（必须执行）
 
 以默认项目级安装为例，读取清单并逐项检查路径是否存在：
 
 ```bash
-node -e "const fs=require('fs'),path=require('path');const p=process.argv[1];const m=JSON.parse(fs.readFileSync(p,'utf8'));const root=path.dirname(p);const missing=m.items.filter(i=>!fs.existsSync(path.join(root,...i.path.split('/'))));console.log(JSON.stringify({layout:m.layout,scope:m.scope,agent:m.agent,items:m.items.length,missing:missing.map(i=>i.path)}));process.exit(missing.length?1:0)" .agents/skills/.arckit-skills.json
+node -e "const fs=require('fs'),path=require('path');const p=process.argv[1];const m=JSON.parse(fs.readFileSync(p,'utf8'));const root=path.dirname(p);const project=process.cwd();const dest=i=>path.resolve(i.root==='project'?project:root,...i.path.split('/'));const missing=m.items.filter(i=>!fs.existsSync(dest(i)));console.log(JSON.stringify({layout:m.layout,scope:m.scope,agent:m.agent,items:m.items.length,missing:missing.map(i=>i.path)}));process.exit(missing.length?1:0)" .agents/skills/.arckit-skills.json
 ```
 
 成功输出形如：
@@ -142,7 +159,8 @@ npx github:feitianchengzi/arckit-skills list
 
 - 已由本工具安装的同名目录会被更新；
 - 平铺与保持结构互相切换时，旧布局副本会被自动清理；
-- 不会删除本次未选中的其他已安装 skills。
+- 不会删除本次未选中的其他已安装 skills；
+- 重复最小闭环安装并带 `--with-kit` 会重新生成 `arckit/_kit/`；不带该参数时保留已有 kit。
 
 ## 7. 卸载
 
@@ -153,6 +171,10 @@ npx github:feitianchengzi/arckit-skills uninstall --project --agents --yes
 # 只卸载指定 skills
 npx github:feitianchengzi/arckit-skills uninstall --project \
   --only arckit-spec,arckit-tech --yes
+
+# 只卸载模板包（保留 skills）
+npx github:feitianchengzi/arckit-skills uninstall --project --agents \
+  --only definition-kit --yes
 
 # 卸载个人目录
 npx github:feitianchengzi/arckit-skills uninstall --personal --agents --yes
