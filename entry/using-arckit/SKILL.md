@@ -1,32 +1,33 @@
 ---
 name: using-arckit
-description: "在 Arckit 项目中开始、恢复与持续推进已授权事项时使用。依据可信场景定义与项目、事项状态选择有界缺口，控制局部前置、探索与正式建立的边界；不代替领域能力或账本写回。"
+description: "在 Arckit 项目中分析目标、确认范围、开始或恢复持续执行时使用。依据可信场景定义与最新状态选择有界缺口，通过门禁自动续轮直至授权目标验收或实际阻塞；不代替领域能力或账本写回。"
 ---
 
 # 使用 Arckit
 
-依据可信场景定义和最新状态，每轮推进一个有界缺口。执行对应步骤前读取所列参考；字段、规则和示例由参考文件维护。
+先分析目标并确认执行范围，再由当前 Agent 持续推进已授权目标，每轮只处理一个有界缺口。执行对应步骤前读取所列参考；字段、规则和示例由参考文件维护。
 
 ## 全程约束
 
-- 用户原任务、当前增量和未撤回授权决定范围。
+- 用户原任务、当前增量和未撤回授权决定范围；新目标按[目标分析与执行授权](references/goal-authorization.md)形成 PROJECT / CASE / GAP 提案并取得确认，明确覆盖本次工作的既有授权不重复确认。
 - 只以可信最新快照判断当前项目与事项状态。
 - 每轮聚焦一个可共同决策、共同验收的缺口，显式识别相关不变量责任。
-- 智能体负责语义判断，账本负责可信校验与写回，运行时负责交接与用户控制；不直接手改账本。
+- 当前 Agent 负责目标级循环和语义判断，账本负责可信校验与写回，宿主提供工具、权限、用户控制与中断恢复；不直接手改账本，不从 session 启动来源推断执行模式。
+- GAP 提交只结束一个账本轮次，不结束目标执行；提交后重读快照，通过门禁则继续调用工具，不以最终答复代替下一轮。
 
 ## 状态驱动循环
 
-### 1. 恢复全部相关信息
+### 1. 分析目标并确认授权
 
-按[状态恢复与事项选择](references/state-recovery.md)取得可信快照、检查可用性、准备写入工作区，并恢复场景契约、全部相关状态与证据。`unavailable` 时暂停普通循环，按[协议兼容性恢复](references/protocol-compatibility-recovery.md)处理，成功后重读快照。
+按[目标分析与执行授权](references/goal-authorization.md)只读恢复状态和证据，展示 PROJECT / CASE / GAP 提案、验收和自主边界。缺少执行授权时等待人工确认；恢复已确认目标时核对授权仍有效。状态不可用时说明未知，不伪造提案事实。
 
-### 2. 选择或创建事项
+### 2. 恢复并绑定事项
 
-结合用户意图、项目缺口、活跃事项、风险和依赖选择一个事项；没有合适事项时，按[事项选择与创建](references/state-recovery.md#事项选择与创建)提交 `case_control.create_case`，注册后重读快照。
+按[状态恢复与事项选择](references/state-recovery.md)取得可信快照、检查可用性、准备写入工作区，并恢复场景契约、全部相关状态与证据。`unavailable` 时暂停普通循环，按[协议兼容性恢复](references/protocol-compatibility-recovery.md)处理，成功后重读快照。结合已授权目标选择事项；没有合适事项时通过 `case_control.create_case` 注册后重读快照。
 
 ### 3. 动态选择下一缺口
 
-按[缺口选择流程](references/gap-selection.md)识别义务、检查前置与因果边界、比较全部已持久化候选和实际新发现，展示开轮说明并声明 `selection_assessment`。普通工作闭合后才选择完成复审。
+按[缺口选择流程](references/gap-selection.md)识别义务、检查前置与因果边界、比较全部已持久化候选和实际新发现，展示开轮说明并声明 `selection_assessment`。初始提案不固定顺序；普通工作闭合后才选择完成复审。
 
 ### 4. 同一智能体完成一个缺口
 
@@ -34,12 +35,12 @@ description: "在 Arckit 项目中开始、恢复与持续推进已授权事项�
 
 ### 5. 提交状态转换
 
-按[提交、续轮与输出](references/round-submission.md)核对跨轮义务，选择宿主声明的语义命令或直接状态转换入口。未完成则如实提交 `partial` 并保留原缺口；完成复审单独提交。
+按[提交、续轮与输出](references/round-submission.md)核对跨轮义务，选择宿主声明的语义命令或直接状态转换入口；提交格式不决定谁负责续轮。未完成则如实提交 `partial` 并保留原缺口；完成复审单独提交。
 
-### 6. 自动续轮
+### 6. 按门禁自动续轮
 
-按[轮次边界契约](references/round-boundary-contract.md)判断进展与下一责任，先展示账本收尾，再调用并展示提交后可信快照，之后独立判断下一轮。交付项见[输出清单](references/round-submission.md#输出)。
+按[轮次边界契约](references/round-boundary-contract.md)先展示账本收尾，再调用并展示提交后可信快照，独立判断原目标、剩余义务与下一责任。只要目标未完成、授权有效且有可执行工作，就回到选择步骤继续；普通工作闭合后继续复审，一个 CASE 解决后检查同一授权目标的其他 CASE。只有验收完成或具体停止条件成立才结束当前请求。交付项见[输出清单](references/round-submission.md#输出)。
 
 ## 宿主接入
 
-宿主提供自动续轮、拒绝恢复或完成后的新发现时，读取[运行时与宿主边界](references/runtime-host-boundary.md)；正常循环的输入与对话顺序见[输入边界](references/controller-input-boundary.md)和[循环对话协议](references/controller-conversation-protocol.md)。
+宿主提供恢复上下文、结构化交接或完成后的新发现时，读取[运行时与宿主边界](references/runtime-host-boundary.md)；正常循环的输入与对话顺序见[输入边界](references/controller-input-boundary.md)和[循环对话协议](references/controller-conversation-protocol.md)。
